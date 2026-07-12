@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
   // Emit directory-style routes (e.g. /about/index.html) so static hosts serve
   // clean URLs reliably without extra rewrite rules.
   trailingSlash: true,
+
+  // Hide the on-screen Next.js dev indicator badge.
+  devIndicators: false,
 };
 
 export default nextConfig;

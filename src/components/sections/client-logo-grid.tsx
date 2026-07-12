@@ -67,7 +67,7 @@ function LogoTile({ client, full = false }: { client: ClientLogo; full?: boolean
         alt={client.name}
         width={160}
         height={64}
-        className="max-h-16 w-auto object-contain opacity-70 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+        className="max-h-16 w-auto object-contain transition-transform duration-300 hover:scale-105"
       />
     </div>
   );

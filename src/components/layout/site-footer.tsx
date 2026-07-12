@@ -27,12 +27,13 @@ const legalLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-ink-900 text-white/70">
+    <footer className="border-t-2 border-bronze/50 bg-ink text-white/70">
       {/* Top band — serif invitation */}
       <div className="border-b border-white/10">
         <div className="container-x flex flex-col gap-6 py-14 sm:flex-row sm:items-end sm:justify-between">
           <h2 className="max-w-xl text-pretty font-display text-3xl font-light leading-tight text-white sm:text-4xl">
-            Let’s build what <span className="serif-italic text-bronze-300">matters</span>.
+            Building Africa’s{" "}
+            <span className="serif-italic text-bronze-300">visibility</span> infrastructure.
           </h2>
           <Link
             href="/contact"

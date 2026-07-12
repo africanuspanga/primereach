@@ -71,7 +71,7 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className="container-x flex h-20 items-center justify-between gap-4">
+        <div className="container-x flex h-24 items-center justify-between gap-4">
           <Logo onDark={!solid} />
 
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">

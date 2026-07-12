@@ -23,11 +23,11 @@ export function Logo({
       <Image
         src={BRAND.logo}
         alt="PrimeReach Global Solutions"
-        width={280}
-        height={100}
+        width={340}
+        height={122}
         priority
         className={cn(
-          "h-9 w-auto transition-[filter,transform] duration-300 group-hover:scale-[1.02] lg:h-10",
+          "h-12 w-auto transition-[filter,transform] duration-300 group-hover:scale-[1.02] sm:h-14 lg:h-16",
           onDark && "brightness-0 invert",
         )}
       />
