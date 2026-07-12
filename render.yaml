@@ -1,0 +1,23 @@
+# Render Blueprint — deploys the site as a static site.
+# In Render: New + → Blueprint → connect this repo, or create a Static Site and
+# use the build command + publish directory below.
+services:
+  - type: web
+    name: primereach-website
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./out
+    pullRequestPreviewsEnabled: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+    # Long-cache the hashed build assets; keep HTML uncached.
+    headers:
+      - path: /_next/static/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    # Serve the exported 404 page for unknown routes.
+    routes:
+      - type: rewrite
+        source: /404
+        destination: /404.html

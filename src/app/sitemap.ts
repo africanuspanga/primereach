@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/constants";
 
+// Required for `output: export` — emit a static sitemap.xml at build time.
+export const dynamic = "force-static";
+
 // Static export-friendly timestamp; bump when content materially changes.
 const LAST_MODIFIED = new Date("2026-07-12");
 
