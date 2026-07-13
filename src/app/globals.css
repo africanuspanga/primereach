@@ -2,16 +2,16 @@
 
 /* ==========================================================================
    PrimeReach Global Solutions — Design tokens
-   Brand: ink navy #121f2d · bronze #b87c42 · white.
+   Brand: ink navy #132746 · bronze #b87c42 · white.
    Direction: cinematic / editorial. Fraunces display serif + Inter body.
    ========================================================================== */
 
 @theme {
-  /* Brand */
-  --color-ink: #121f2d;
-  --color-ink-900: #0b141d;
-  --color-ink-800: #1a2a3a;
-  --color-ink-700: #26384a;
+  /* Brand — lighter, bluer navy scale anchored on #132746 (primary dark blue) */
+  --color-ink: #132746;
+  --color-ink-900: #0f2038;
+  --color-ink-800: #1b3358;
+  --color-ink-700: #274264;
   --color-bronze: #b87c42;
   --color-bronze-600: #9d6733;
   --color-bronze-400: #c9915a;
@@ -25,7 +25,7 @@
 
   /* Semantic */
   --color-background: #ffffff;
-  --color-foreground: #121f2d;
+  --color-foreground: #132746;
 
   /* Type */
   --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;

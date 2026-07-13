@@ -29,7 +29,7 @@ const legalLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t-2 border-bronze/50 bg-ink text-white/70">
+    <footer className="border-t-2 border-bronze bg-ink text-white/70">
       {/* Top band — serif invitation */}
       <div className="border-b border-white/10">
         <div className="container-x flex flex-col gap-6 py-14 sm:flex-row sm:items-end sm:justify-between">
