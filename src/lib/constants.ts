@@ -13,7 +13,8 @@ export const SITE = {
     "Building Communication, Media, and Visibility Infrastructure that Powers Institutions and Communities.",
   url: "https://www.primereachglobal.co.tz",
   domain: "www.primereachglobal.co.tz",
-  foundedYear: "2019",
+  // v2 site copy dates the founding to 2022 (see About › Our Journey).
+  foundedYear: "2022",
 } as const;
 
 export const CONTACT = {
@@ -49,34 +50,65 @@ export const CONTACT = {
 
 export const MAIN_NAV: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
   {
-    label: "Services",
-    href: "/services",
+    label: "About",
+    href: "/about",
     children: [
-      {
-        label: "PR, Media & Strategic Communication",
-        href: "/services/pr-media-communications",
-      },
-      {
-        label: "Research, Training & Consultancy",
-        href: "/services/research-training-consultancy",
-      },
-      {
-        label: "Technology, Solutions & Emerging Tech",
-        href: "/services/technology-solutions",
-      },
+      { label: "The Company", href: "/about#company" },
+      { label: "Mission & Vision", href: "/about#mission-vision" },
+      { label: "Our Core Values", href: "/about#values" },
+      { label: "Our Journey", href: "/about#journey" },
     ],
   },
-  { label: "Network & Reach", href: "/network" },
-  { label: "Clients & Sectors", href: "/clients-sectors" },
+  {
+    label: "Solutions",
+    href: "/solutions",
+    children: [
+      { label: "PR & Strategic Communication", href: "/solutions/pr-strategic-communication" },
+      { label: "Digital Transformation", href: "/solutions/digital-transformation" },
+      { label: "Creative Media Production", href: "/solutions/creative-media-production" },
+      { label: "AI & Innovation", href: "/solutions/ai-innovation" },
+      { label: "Drone & Geospatial Solutions", href: "/solutions/drone-geospatial" },
+      { label: "Research, Training & Advisory", href: "/solutions/research-training-advisory" },
+    ],
+  },
+  {
+    label: "Impact",
+    href: "/impact",
+    children: [
+      { label: "Case Studies", href: "/impact/case-studies" },
+      { label: "Featured Projects", href: "/impact/featured-projects" },
+      { label: "Clients & Sectors", href: "/impact/clients-sectors" },
+      { label: "Testimonials", href: "/impact/testimonials" },
+    ],
+  },
+  {
+    label: "Capabilities",
+    href: "/capabilities",
+    children: [
+      { label: "Technology", href: "/capabilities/technology" },
+      { label: "Creative Studio", href: "/capabilities/creative-studio" },
+      { label: "Research", href: "/capabilities/research" },
+      { label: "Network", href: "/capabilities/network" },
+      { label: "Rapid Deployment", href: "/capabilities/rapid-deployment" },
+    ],
+  },
+  {
+    label: "Flagship",
+    href: "/programmes",
+    children: [
+      { label: "Tanzania Creative Market Access", href: "/programmes/tcma" },
+      { label: "Future Programmes", href: "/programmes/future" },
+    ],
+  },
+  { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
 ];
 
 export const CTA = {
-  primary: { label: "Start a Conversation", href: "/contact" },
-  explore: { label: "Explore Our Capabilities", href: "/services" },
-  conversation: { label: "Start a Strategic Conversation", href: "/contact" },
+  primary: { label: "Start a Brief", href: "/contact" },
+  explore: { label: "Explore Our Solutions", href: "/solutions" },
+  conversation: { label: "Contact PrimeReach", href: "/contact" },
 } as const;
 
 /** Build an absolute URL from a site-relative path. */

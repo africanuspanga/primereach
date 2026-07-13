@@ -1,22 +1,24 @@
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
-import { CONTACT, SITE } from "@/lib/constants";
+import { ArrowUpRight, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { CONTACT, CTA, SITE } from "@/lib/constants";
 import { Logo } from "@/components/layout/logo";
 
 const companyLinks = [
-  { label: "About Us", href: "/about" },
-  { label: "Our Vision", href: "/about#vision" },
-  { label: "Our Mission", href: "/about#mission" },
+  { label: "About", href: "/about" },
+  { label: "Mission & Vision", href: "/about#mission-vision" },
+  { label: "Our Values", href: "/about#values" },
   { label: "Our Journey", href: "/about#journey" },
-  { label: "Clients & Sectors", href: "/clients-sectors" },
+  { label: "Clients & Sectors", href: "/impact/clients-sectors" },
+  { label: "Insights", href: "/insights" },
 ];
 
-const serviceLinks = [
-  { label: "PR, Media & Strategic Communication", href: "/services/pr-media-communications" },
-  { label: "Research, Training & Consultancy", href: "/services/research-training-consultancy" },
-  { label: "Technology, Solutions & Emerging Tech", href: "/services/technology-solutions" },
-  { label: "Creator Network", href: "/network#creators" },
-  { label: "Rapid Deployment", href: "/network#rapid-deployment" },
+const solutionsLinks = [
+  { label: "PR & Strategic Communication", href: "/solutions/pr-strategic-communication" },
+  { label: "Digital Transformation", href: "/solutions/digital-transformation" },
+  { label: "Creative Media Production", href: "/solutions/creative-media-production" },
+  { label: "AI & Innovation", href: "/solutions/ai-innovation" },
+  { label: "Drone & Geospatial", href: "/solutions/drone-geospatial" },
+  { label: "Research, Training & Advisory", href: "/solutions/research-training-advisory" },
 ];
 
 const legalLinks = [
@@ -36,10 +38,10 @@ export function SiteFooter() {
             <span className="serif-italic text-bronze-300">visibility</span> infrastructure.
           </h2>
           <Link
-            href="/contact"
+            href={CTA.primary.href}
             className="group inline-flex items-center gap-3 self-start rounded-full bg-bronze px-6 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-bronze-600 sm:self-auto"
           >
-            Start a Conversation
+            {CTA.primary.label}
             <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </div>
@@ -50,10 +52,15 @@ export function SiteFooter() {
           <Logo onDark />
           <p className="mt-6 eyebrow text-bronze-300">{SITE.slogan}</p>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/55">
-            PrimeReach Global Solutions builds communication, media, research and
-            technology infrastructure that powers institutions and communities across
-            Africa.
+            Africa’s integrated digital infrastructure group. We build the
+            communication, media, research, and technology backbone that powers
+            institutions and creators across the continent.
           </p>
+          <address className="mt-5 text-sm not-italic leading-relaxed text-white/45">
+            Dar es Salaam, Tanzania
+            <br />
+            Registered under the laws of the United Republic of Tanzania
+          </address>
         </div>
 
         <div className="lg:col-span-2">
@@ -62,12 +69,12 @@ export function SiteFooter() {
         </div>
 
         <div className="lg:col-span-3">
-          <FooterHeading>Services</FooterHeading>
-          <FooterList links={serviceLinks} />
+          <FooterHeading>Solutions</FooterHeading>
+          <FooterList links={solutionsLinks} />
         </div>
 
         <div className="lg:col-span-3">
-          <FooterHeading>Contact</FooterHeading>
+          <FooterHeading>Reach Us</FooterHeading>
           <ul className="mt-4 space-y-3 text-sm">
             <li className="flex items-start gap-3">
               <MapPin className="mt-0.5 size-4 shrink-0 text-bronze-300" />
@@ -93,6 +100,12 @@ export function SiteFooter() {
                 <a href={CONTACT.phoneSecondary.href} className="text-white/55 transition-colors hover:text-white">
                   {CONTACT.phoneSecondary.display}
                 </a>
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Clock className="mt-0.5 size-4 shrink-0 text-bronze-300" />
+              <span className="text-white/55">
+                Monday to Friday, 08:30 to 17:30 EAT
               </span>
             </li>
           </ul>

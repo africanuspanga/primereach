@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, X } from "lucide-react";
-import { CONTACT, MAIN_NAV } from "@/lib/constants";
+import { CONTACT, CTA, MAIN_NAV } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ export function MobileNavigation({
   onClose: () => void;
   isActive: (href: string) => boolean;
 }) {
-  const [expanded, setExpanded] = useState<string | null>("/services");
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   // Lock body scroll while the menu is open.
   useEffect(() => {
@@ -47,7 +47,7 @@ export function MobileNavigation({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[60] lg:hidden"
+          className="fixed inset-0 z-[60] xl:hidden"
         >
           <div className="absolute inset-0 bg-ink-900/60 backdrop-blur-sm" onClick={onClose} />
           <motion.div
@@ -109,7 +109,7 @@ export function MobileNavigation({
                                   href={item.href}
                                   className="block rounded-lg px-4 py-2.5 text-sm font-medium text-bronze-600"
                                 >
-                                  All Services
+                                  Overview
                                 </Link>
                               </li>
                               {item.children.map((child) => (
@@ -146,8 +146,8 @@ export function MobileNavigation({
             </nav>
 
             <div className="border-t border-ink/10 px-5 py-5">
-              <Button href="/contact" className="w-full" size="md">
-                Start a Conversation
+              <Button href={CTA.primary.href} className="w-full" size="md">
+                {CTA.primary.label}
               </Button>
               <a
                 href={CONTACT.phonePrimary.href}

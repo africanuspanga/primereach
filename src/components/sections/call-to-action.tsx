@@ -44,11 +44,11 @@ export function CallToAction({
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <Button href="/contact" size="lg" withArrow>
-              Start a Conversation
+              Contact PrimeReach
             </Button>
             <Button href={CONTACT.phonePrimary.href} size="lg" variant="onDark">
               <Phone className="size-4" />
-              Call PrimeReach
+              Call our office
             </Button>
           </div>
         </Reveal>

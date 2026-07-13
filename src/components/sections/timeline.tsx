@@ -20,10 +20,22 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
               <span className="size-2 rounded-full bg-bronze ring-4 ring-paper" />
             </span>
             <div className="flex-1 rounded-2xl border border-ink/10 bg-white p-5 shadow-[0_18px_40px_-30px_rgba(11,20,29,0.5)]">
-              <span className="font-display text-lg font-light text-bronze-600 sm:hidden">
-                {entry.year}
-              </span>
-              <p className="text-[0.95rem] leading-relaxed text-ink/80 sm:text-base">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="font-display text-lg font-light text-bronze-600 sm:hidden">
+                  {entry.year}
+                </span>
+                {entry.tag && (
+                  <span className="text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-bronze-600">
+                    {entry.tag}
+                  </span>
+                )}
+              </div>
+              {entry.title && (
+                <h4 className="mt-1.5 font-display text-lg font-normal text-ink">
+                  {entry.title}
+                </h4>
+              )}
+              <p className="mt-2 text-[0.95rem] leading-relaxed text-ink/70 sm:text-base">
                 {entry.description}
               </p>
             </div>

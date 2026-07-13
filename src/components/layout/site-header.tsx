@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Mail, Menu, Phone } from "lucide-react";
-import { CONTACT, MAIN_NAV, SITE } from "@/lib/constants";
+import { CONTACT, CTA, MAIN_NAV, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
@@ -74,7 +74,7 @@ export function SiteHeader() {
         <div className="container-x flex h-24 items-center justify-between gap-4">
           <Logo onDark={!solid} />
 
-          <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
             {MAIN_NAV.map((item) =>
               item.children ? (
                 <div key={item.href} className="group relative">
@@ -123,9 +123,9 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <div className="hidden lg:block">
-              <Button href="/contact" size="sm" variant={solid ? "primary" : "onDark"}>
-                Start a Conversation
+            <div className="hidden xl:block">
+              <Button href={CTA.primary.href} size="sm" variant={solid ? "primary" : "onDark"}>
+                {CTA.primary.label}
               </Button>
             </div>
             <button
@@ -133,7 +133,7 @@ export function SiteHeader() {
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
               className={cn(
-                "grid size-11 place-items-center rounded-full transition-colors lg:hidden",
+                "grid size-11 place-items-center rounded-full transition-colors xl:hidden",
                 solid ? "text-ink hover:bg-paper-dim" : "text-white hover:bg-white/10",
               )}
             >

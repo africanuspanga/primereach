@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Send } from "lucide-react";
-import { CONTACT_METHODS, SERVICE_OPTIONS } from "@/data/site-content";
+import { CONTACT_SECTORS, SOLUTION_INTERESTS } from "@/data/site-content";
 import { CONTACT } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -10,26 +10,22 @@ import { cn } from "@/lib/utils";
  * FRONTEND-ONLY CONTACT FORM
  * --------------------------------------------------------------------------
  * There is no backend yet. On submit we compose a `mailto:` link so the
- * visitor's email client opens with the enquiry pre-filled — no fake success
- * message is shown.
+ * visitor's email client opens with the enquiry pre-filled.
  *
- * TO CONNECT A REAL ENDPOINT LATER (Formspree / Resend / Supabase / route
- * handler): replace `handleSubmit` with a `fetch()` to your endpoint and show
- * real success / error states. Suggested endpoint constant is marked below.
+ * TO CONNECT A REAL ENDPOINT LATER (Formspree / Resend / route handler):
+ * replace `handleSubmit` with a `fetch()` to your endpoint and show real
+ * success / error states.
  */
-
-// const FORM_ENDPOINT = ""; // e.g. "https://formspree.io/f/xxxx" or "/api/contact"
 
 const initialState = {
   name: "",
   organisation: "",
+  role: "",
   email: "",
   phone: "",
-  country: "",
-  service: "",
+  sector: "",
+  interests: [] as string[],
   message: "",
-  method: CONTACT_METHODS[0] as string,
-  consent: false,
 };
 
 const fieldClasses =
@@ -42,35 +38,44 @@ export function ContactForm() {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
+  function toggleInterest(interest: string) {
+    setForm((prev) => ({
+      ...prev,
+      interests: prev.interests.includes(interest)
+        ? prev.interests.filter((i) => i !== interest)
+        : [...prev.interests, interest],
+    }));
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const serviceLabel =
-      SERVICE_OPTIONS.find((s) => s.value === form.service)?.label ?? "General Enquiry";
 
     const body = [
       `Name: ${form.name}`,
       `Organisation: ${form.organisation}`,
+      `Role: ${form.role}`,
       `Email: ${form.email}`,
-      `Telephone: ${form.phone}`,
-      `Country: ${form.country}`,
-      `Service of interest: ${serviceLabel}`,
-      `Preferred contact method: ${form.method}`,
+      `Phone: ${form.phone}`,
+      `Sector: ${form.sector || "Not specified"}`,
+      `Interest: ${form.interests.length ? form.interests.join(", ") : "Not specified"}`,
       "",
-      "Enquiry details:",
+      "Message:",
       form.message,
     ].join("\n");
 
-    const mailto = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
-      `Enquiry — ${serviceLabel}`,
-    )}&body=${encodeURIComponent(body)}`;
+    const subject = form.organisation
+      ? `Enquiry — ${form.organisation}`
+      : "Enquiry — PrimeReach";
 
-    window.location.href = mailto;
+    window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
+      subject,
+    )}&body=${encodeURIComponent(body)}`;
   }
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-5">
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Full Name" required>
+        <Field label="Name" required>
           <input
             type="text"
             required
@@ -81,9 +86,10 @@ export function ContactForm() {
             placeholder="Your full name"
           />
         </Field>
-        <Field label="Organisation">
+        <Field label="Organisation" required>
           <input
             type="text"
+            required
             autoComplete="organization"
             value={form.organisation}
             onChange={(e) => update("organisation", e.target.value)}
@@ -94,7 +100,17 @@ export function ContactForm() {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Email Address" required>
+        <Field label="Role">
+          <input
+            type="text"
+            autoComplete="organization-title"
+            value={form.role}
+            onChange={(e) => update("role", e.target.value)}
+            className={fieldClasses}
+            placeholder="Your role"
+          />
+        </Field>
+        <Field label="Email" required>
           <input
             type="email"
             required
@@ -105,7 +121,10 @@ export function ContactForm() {
             placeholder="you@organisation.com"
           />
         </Field>
-        <Field label="Telephone Number">
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field label="Phone">
           <input
             type="tel"
             autoComplete="tel"
@@ -115,79 +134,59 @@ export function ContactForm() {
             placeholder="+255 …"
           />
         </Field>
-      </div>
-
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Country">
-          <input
-            type="text"
-            autoComplete="country-name"
-            value={form.country}
-            onChange={(e) => update("country", e.target.value)}
-            className={fieldClasses}
-            placeholder="Country"
-          />
-        </Field>
-        <Field label="Service of Interest">
+        <Field label="Sector">
           <select
-            value={form.service}
-            onChange={(e) => update("service", e.target.value)}
+            value={form.sector}
+            onChange={(e) => update("sector", e.target.value)}
             className={cn(fieldClasses, "appearance-none bg-white pr-10")}
           >
-            <option value="">Select a service…</option>
-            {SERVICE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            <option value="">Select your sector…</option>
+            {CONTACT_SECTORS.map((sector) => (
+              <option key={sector} value={sector}>
+                {sector}
               </option>
             ))}
           </select>
         </Field>
       </div>
 
-      <Field label="Project or Enquiry Details" required>
+      <fieldset>
+        <legend className="text-sm font-medium text-ink">
+          Interest <span className="text-muted">(select all that apply)</span>
+        </legend>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {SOLUTION_INTERESTS.map((interest) => {
+            const checked = form.interests.includes(interest);
+            return (
+              <button
+                key={interest}
+                type="button"
+                aria-pressed={checked}
+                onClick={() => toggleInterest(interest)}
+                className={cn(
+                  "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                  checked
+                    ? "border-bronze bg-bronze text-white"
+                    : "border-ink/15 bg-white text-ink hover:border-ink/30",
+                )}
+              >
+                {interest}
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      <Field label="Message" required>
         <textarea
           required
           rows={5}
           value={form.message}
           onChange={(e) => update("message", e.target.value)}
           className={cn(fieldClasses, "resize-y")}
-          placeholder="Tell us about your objectives, timeline and scope."
+          placeholder="Tell us about the outcome, the audience, the timing, and the constraint we should know about."
         />
       </Field>
-
-      <Field label="Preferred Contact Method">
-        <div className="flex flex-wrap gap-2">
-          {CONTACT_METHODS.map((method) => (
-            <button
-              key={method}
-              type="button"
-              onClick={() => update("method", method)}
-              className={cn(
-                "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
-                form.method === method
-                  ? "border-bronze bg-bronze text-white"
-                  : "border-ink/15 bg-white text-ink hover:border-ink/30",
-              )}
-            >
-              {method}
-            </button>
-          ))}
-        </div>
-      </Field>
-
-      <label className="flex items-start gap-3 text-sm text-muted">
-        <input
-          type="checkbox"
-          required
-          checked={form.consent}
-          onChange={(e) => update("consent", e.target.checked)}
-          className="mt-0.5 size-4 rounded border-ink/30 text-bronze focus:ring-bronze/30"
-        />
-        <span>
-          I consent to PrimeReach Global Solutions contacting me about my enquiry and
-          storing the details I have provided.
-        </span>
-      </label>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
@@ -195,7 +194,7 @@ export function ContactForm() {
           className="group/btn inline-flex h-12 items-center justify-center gap-2 rounded-full bg-bronze px-7 text-sm font-semibold text-white shadow-[0_10px_30px_-12px_rgba(213,132,52,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-bronze-600"
         >
           <Send className="size-4" />
-          Send Enquiry
+          Send message
         </button>
         <p className="text-xs text-muted">
           This opens your email app with the details pre-filled.

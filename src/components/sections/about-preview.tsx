@@ -1,4 +1,4 @@
-import { ABOUT } from "@/data/site-content";
+import { HOME } from "@/data/site-content";
 import { MEDIA } from "@/lib/images";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
@@ -11,31 +11,23 @@ export function AboutPreview() {
       <div className="container-x grid gap-14 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-20">
         <div className="order-2 lg:order-1">
           <Reveal>
-            <Eyebrow>Who We Are</Eyebrow>
+            <Eyebrow>{HOME.intro.eyebrow}</Eyebrow>
             <h2 className="mt-6 text-pretty font-display text-[2rem] font-light leading-[1.1] text-ink sm:text-4xl lg:text-[2.85rem]">
-              Africa’s integrated{" "}
-              <span className="serif-italic text-bronze-600">digital infrastructure</span>{" "}
-              partner.
+              An integrated partner for the institutions{" "}
+              <span className="serif-italic text-bronze-600">defining Africa’s future.</span>
             </h2>
           </Reveal>
           <div className="mt-7 space-y-5 text-[1.05rem] leading-relaxed text-muted">
-            {ABOUT.intro.map((para, i) => (
+            {HOME.intro.body.map((para, i) => (
               <Reveal key={i} delay={0.05 * (i + 1)}>
                 <p>{para}</p>
               </Reveal>
             ))}
           </div>
-          <Reveal delay={0.2}>
-            <figure className="mt-9 border-l-2 border-bronze pl-6">
-              <blockquote className="font-display text-xl font-light italic leading-relaxed text-ink">
-                {ABOUT.featuredStatement}
-              </blockquote>
-            </figure>
-          </Reveal>
-          <Reveal delay={0.28}>
+          <Reveal delay={0.24}>
             <div className="mt-9">
-              <Button href="/about" withArrow variant="outline">
-                Discover PrimeReach
+              <Button href={HOME.intro.cta.href} withArrow variant="outline">
+                {HOME.intro.cta.label}
               </Button>
             </div>
           </Reveal>
@@ -50,7 +42,7 @@ export function AboutPreview() {
           />
           <div className="absolute -bottom-6 -left-4 hidden rounded-2xl bg-ink px-7 py-5 text-white shadow-[0_24px_60px_-20px_rgba(11,20,29,0.6)] sm:block">
             <p className="font-display text-4xl font-light leading-none text-bronze-300">
-              2019
+              2022
             </p>
             <p className="mt-2 text-[0.7rem] font-medium uppercase tracking-[0.18em] text-white/60">
               Building since

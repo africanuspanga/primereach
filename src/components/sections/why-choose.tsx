@@ -19,8 +19,8 @@ export function WhyChoose() {
               <span className="serif-italic text-bronze-600">voice</span>.
             </h2>
             <p className="mt-5 max-w-md text-[1.05rem] leading-relaxed text-muted">
-              Seven reasons governments, embassies and listed corporates hand PrimeReach
-              their visibility, reputation and infrastructure.
+              Seven reasons governments, embassies, and listed corporates hand PrimeReach
+              their visibility, their reputation, and their infrastructure.
             </p>
           </Reveal>
           <Reveal delay={0.1}>

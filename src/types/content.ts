@@ -58,6 +58,10 @@ export interface CoreValue {
 
 export interface TimelineEntry {
   year: string;
+  /** Short phase label shown beside the year, e.g. "Founding". */
+  tag?: string;
+  /** Bold headline for the milestone. */
+  title?: string;
   description: string;
 }
 
@@ -82,4 +86,152 @@ export interface ClientLogo {
 export interface ServiceOption {
   value: string;
   label: string;
+}
+
+/* ==========================================================================
+   v2 information architecture — Solutions · Impact · Capabilities ·
+   Flagship Programmes · Insights
+   ========================================================================== */
+
+export interface LinkRef {
+  label: string;
+  href: string;
+}
+
+/** Closing call-to-action block used on solution / capability detail pages. */
+export interface ClosingCta {
+  eyebrow: string;
+  heading: string;
+  copy: string;
+  primary: LinkRef;
+  secondary?: LinkRef;
+}
+
+export interface SubService {
+  title: string;
+  description: string;
+}
+
+export interface ApproachStep {
+  number: string;
+  title: string;
+  description: string;
+}
+
+/** One of the six Solutions (with its detail page). */
+export interface Solution {
+  slug: string;
+  number: string;
+  title: string;
+  href: string;
+  icon: IconName;
+  /** Short line for the home + index cards. */
+  cardDescription: string;
+  /** Lede on the detail-page hero. */
+  heroTagline: string;
+  seoDescription: string;
+  /** Optional line under the "What we deliver" heading. */
+  deliverIntro?: string;
+  subServices: SubService[];
+  approach?: ApproachStep[];
+  closing: ClosingCta;
+}
+
+/** Cross-cutting offering (07–10) shown on the Solutions index only. */
+export interface CrossCuttingOffering {
+  number: string;
+  title: string;
+  description: string;
+  cta: string;
+}
+
+export interface CaseStudy {
+  sector: string;
+  client: string;
+  title: string;
+  summary?: string;
+  image: string;
+}
+
+export interface FeaturedProject {
+  title: string;
+  caption: string;
+  image: string;
+}
+
+export interface ImpactSector {
+  title: string;
+  description: string;
+  count: string;
+}
+
+export interface Testimonial {
+  quote: string;
+  initials: string;
+  role: string;
+  org: string;
+}
+
+export interface RosterClient {
+  name: string;
+  logo?: string;
+}
+
+/** One of the five Capabilities (with its detail page). */
+export interface Capability {
+  slug: string;
+  number: string;
+  title: string;
+  href: string;
+  icon: IconName;
+  /** Tile copy on the Capabilities index. */
+  summary: string;
+  /** Tile copy on the home "five capabilities" row. */
+  summaryHome: string;
+  /** Lede on the detail-page hero. */
+  heroTagline: string;
+  heroTitle: string;
+  bodyHeading: string;
+  bodyCopy: string;
+  bullets: string[];
+  visualLabel: string;
+  /** Special detail renderer. */
+  variant?: "list" | "network" | "deployment";
+}
+
+export interface RegionCoverage {
+  region: string;
+  crew?: string;
+}
+
+export interface DeployStep {
+  time: string;
+  title: string;
+  description: string;
+}
+
+export type ProgrammeStatus = "live" | "pilot" | "dev";
+
+export interface Programme {
+  slug?: string;
+  title: string;
+  status: ProgrammeStatus;
+  statusLabel: string;
+  description: string;
+  stats?: Stat[];
+  cta?: LinkRef & { variant?: "primary" | "ink" | "ghost" };
+}
+
+export type InsightType = "Article" | "Report" | "News" | "Event";
+
+export interface Insight {
+  type: InsightType;
+  title: string;
+  meta: string;
+  image?: string;
+}
+
+export interface Department {
+  title: string;
+  email: string;
 }

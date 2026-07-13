@@ -1,4 +1,4 @@
-import { Globe, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, Globe, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { CONTACT } from "@/lib/constants";
 
 /** Static contact information block with tappable email / tel / WhatsApp links. */
@@ -64,6 +64,12 @@ export function ContactDetails() {
         >
           {CONTACT.website.display}
         </a>
+      </DetailCard>
+
+      <DetailCard icon={<Clock className="size-5" />} title="Office Hours">
+        <p className="leading-relaxed text-muted">
+          Monday to Friday, 08:30 to 17:30 East Africa Time.
+        </p>
       </DetailCard>
     </div>
   );

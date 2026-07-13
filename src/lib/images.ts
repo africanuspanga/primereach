@@ -31,6 +31,11 @@ export const MEDIA = {
   pageHero: {
     about: bg(3),
     services: pr(6),
+    solutions: pr(6),
+    impact: bg(5),
+    capabilities: bg(4),
+    programmes: bg(7),
+    insights: bg(3),
     network: bg(4),
     clients: bg(5),
     contact: bg(6),
@@ -41,6 +46,31 @@ export const MEDIA = {
     "pr-media-communications": pr(3),
     "research-training-consultancy": tech(8),
     "technology-solutions": tech(6),
+  } as Record<string, string>,
+
+  // Solution card / detail imagery (v2 IA — six solutions)
+  solutions: {
+    "pr-strategic-communication": pr(3),
+    "digital-transformation": tech(2),
+    "creative-media-production": pr(5),
+    "ai-innovation": tech(6),
+    "drone-geospatial": tech(4),
+    "research-training-advisory": tech(8),
+  } as Record<string, string>,
+
+  // Capability detail imagery (v2 IA — five capabilities)
+  capabilities: {
+    technology: tech(1),
+    "creative-studio": pr(7),
+    research: tech(9),
+    network: bg(4),
+    "rapid-deployment": pr(2),
+  } as Record<string, string>,
+
+  // Flagship programme imagery
+  programmes: {
+    tcma: pr(1),
+    future: pr(9),
   } as Record<string, string>,
 
   // Assorted portfolio / gallery pool

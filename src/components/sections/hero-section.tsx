@@ -69,6 +69,12 @@ export function HeroSection() {
               </Button>
             </div>
           </Reveal>
+
+          <Reveal delay={0.4}>
+            <p className="mt-11 text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-white/45">
+              {HERO.audiences}
+            </p>
+          </Reveal>
         </div>
       </div>
 

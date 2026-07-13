@@ -1,6 +1,7 @@
 import type {
   ClientLogo,
   CoreValue,
+  Department,
   FeatureList,
   SectorGroup,
   ServiceOption,
@@ -25,46 +26,52 @@ import type {
 /* ---------- Hero ---------- */
 
 export const HERO = {
-  eyebrow: "Innovate · Create · Reach",
-  // ≤ 5 words; the accent word is set in italic bronze.
-  headlineLead: "We Build Africa’s",
-  headlineAccent: "Visibility",
-  // ≤ 15 words.
+  eyebrow: "Innovate. Create. Reach.",
+  // The accent word is set in italic bronze after the lead.
+  headlineLead: "We build Africa’s visibility",
+  headlineAccent: "infrastructure",
   supporting:
-    "Strategic communication, media, research and technology — built for the institutions shaping Africa.",
-  primaryCta: { label: "Explore Our Capabilities", href: "/services" },
-  secondaryCta: { label: "Start a Conversation", href: "/contact" },
+    "Strategic communication, media, research, and technology, engineered for the institutions shaping the continent’s next decade.",
+  primaryCta: { label: "Explore Our Solutions", href: "/solutions" },
+  secondaryCta: { label: "Speak With Our Team", href: "/contact" },
+  audiences: "Governments · Development Partners · Universities · Corporates · Creators",
 } as const;
 
 /* ---------- About ---------- */
 
 export const ABOUT = {
-  previewHeading: "Africa’s Integrated Digital Infrastructure Partner",
-  intro: [
-    "PrimeReach Global Solutions is a Tanzania-headquartered strategic communication, technology, and integrated solutions group that enables governments, development partners, universities, corporates, security agencies, and creators to communicate, operate, and compete at global standards.",
-    "PrimeReach sits at the intersection of communication, technology, and emerging digital systems in Africa and globally. We design narratives, build media systems, supply technology infrastructure, and deliver the foundational platforms African institutions need to project authority, modernise operations, and shape the futures they intend to define.",
-  ],
-  featuredStatement:
-    "PrimeReach is building Africa’s integrated digital infrastructure, powering institutions, creators, and communities through strategic communication, technology supply, and integrated operational solutions.",
-  pageHeroTitle:
-    "Building the Systems Through Which African Institutions Speak, Persuade and Lead",
+  pageHeroTitle: "Building Africa’s visibility, one institution at a time.",
   pageHeroSupporting:
-    "PrimeReach operates at the intersection of strategic communication, technology, research, media production and emerging digital systems.",
-  vision: {
-    heading: "Our Vision",
-    body: [
-      "To become Africa’s leading integrated digital infrastructure group.",
-      "To shape the future of communication, storytelling, institutional visibility, and digital presence by building the systems through which African institutions speak, persuade, and lead.",
-    ],
-  },
+    "We are the strategic communication, media, and technology group behind some of East Africa’s most consequential campaigns.",
+  companyEyebrow: "The Company",
+  company: [
+    "PrimeReach Global Solutions was founded to solve one problem. African institutions, whether governments, universities, corporates, development partners, or security agencies, need a partner who can deliver communication, media, and technology work at global standards, on the ground, in country, with speed and confidence.",
+    "Since our founding we have grown into three operating wings: Communication, Research, and Technology. We are supported by a network of over 200 photographers, videographers, and drone pilots, more than 100 vetted content creators, and offices and desks across Tanzania and pan-Africa. We work in six sectors and six countries. Our clients include DStv, the University of Toronto, MUHAS, Ardhi University, CI Ventures, Stichting DOEN, Anchor Foundation, Mustardseed Trust, TIRA, and NHC.",
+    "Every project is delivered under a single accountable team. One contract, one point of contact, integrated capability, institutional standards. That is the operating premise, and it is why the institutions listed above return.",
+  ],
+  mvEyebrow: "What We Set Out To Do",
   mission: {
-    heading: "Our Mission",
-    body: [
-      "To empower businesses, individuals, and organisations with creative, research-driven, and technology-focused services that foster sustainable growth and development.",
-      "PrimeReach brings strategy, production, research, and technology supply under a single accountable group designed for governments, embassies, corporates, NGOs, and creators across Africa and beyond.",
-    ],
+    kicker: "Our Mission",
+    heading: "The work we exist to do.",
+    body: "To build the communication, media, and technology infrastructure that empowers African institutions to project authority, modernise operations, and shape the futures they intend to define.",
   },
-  journeySubtitle: "Building the Continent’s Visibility Infrastructure Since 2019",
+  vision: {
+    kicker: "Our Vision",
+    heading: "The position we intend to hold.",
+    body: "To be Africa’s most trusted integrated digital infrastructure group. The partner institutions choose when their reputation, their reach, and their operating standard depend on getting it right.",
+  },
+  valuesEyebrow: "What We Stand For",
+  valuesDescription:
+    "Six commitments that shape every brief, every deliverable, every relationship.",
+  journeyEyebrow: "Milestones",
+  journeyTitle: "Our journey.",
+  journeyDescription:
+    "A short chronology of the moments that shaped PrimeReach into the group it is today.",
+  closing: {
+    eyebrow: "Ready to Work With PrimeReach",
+    heading: "Bring us your brief.",
+    copy: "The best PrimeReach relationships begin with a conversation. Tell us what you are building and we will show you what we can bring to it.",
+  },
 } as const;
 
 /* ---------- Statistics ---------- */
@@ -85,57 +92,126 @@ export const NETWORK_STATS: Stat[] = [
   { value: "10+", label: "Sector Niches" },
 ];
 
+/* ---------- Home page copy (v2) ---------- */
+
+export const HOME = {
+  positionLede:
+    "PrimeReach Global Solutions is Africa’s integrated digital infrastructure group, building the communication, media, research, and technology backbone that powers institutions and creators across the continent.",
+  intro: {
+    eyebrow: "Who We Are",
+    heading: "An integrated partner for the institutions defining Africa’s future.",
+    body: [
+      "PrimeReach is a Tanzania-headquartered strategic communication, technology, and integrated solutions group. Governments, development partners, universities, corporates, security agencies, and creators use us to communicate, operate, and compete at global standards.",
+      "Three specialised wings, one accountable team. We design narratives, build media systems, supply technology infrastructure, and deliver the operating platforms African institutions need to project authority, modernise operations, and shape their own futures.",
+    ],
+    cta: { label: "Discover PrimeReach", href: "/about" },
+    imageCaption: "Institutional-grade production. Field-ready teams.",
+  },
+  wings: {
+    eyebrow: "One Integrated Ecosystem",
+    title: "Three specialised wings. End-to-end capability.",
+    description:
+      "From reputation strategy to research to technology supply, PrimeReach delivers a complete operating stack under one accountable group. One contract. One point of contact. One accountable result.",
+  },
+  solutions: {
+    eyebrow: "What We Deliver",
+    title: "Six solutions. One accountable partner.",
+    description:
+      "Whether you need one specialised capability or a fully integrated programme, PrimeReach delivers under a single team with one point of accountability.",
+  },
+  why: {
+    eyebrow: "Why PrimeReach",
+    title: "Why institutions trust us with their voice.",
+    description:
+      "Seven reasons governments, embassies, and listed corporates hand PrimeReach their visibility, their reputation, and their infrastructure.",
+  },
+  tcma: {
+    eyebrow: "Flagship Programme",
+    title: "Tanzania Creative Market Access.",
+    body: [
+      "Our flagship programme, TCMA, is the operating system for Tanzania’s creator economy. We vet and onboard creators, build campaign infrastructure, handle contracts and distribution, and train talent on brand-safety, editorial standards, and the business of the modern creator economy.",
+      "Brands receive audience-verified reach without friction. Creators receive institutional-grade opportunities without giving up their voice. Institutions receive a governance layer they can present to boards, partners, and regulators.",
+    ],
+    stats: [
+      { value: "200+", label: "Vetted Creators" },
+      { value: "6", label: "Regional Hubs" },
+      { value: "12+", label: "Sector Niches" },
+    ] satisfies Stat[],
+    cta: { label: "Explore TCMA", href: "/programmes/tcma" },
+  },
+  capabilities: {
+    eyebrow: "How We Deliver",
+    title: "Five capabilities behind every project.",
+    description:
+      "The operational muscle behind our solutions. Technology, teams, studios, network, and rapid deployment ready when the brief arrives.",
+  },
+  reelCaption: "Scale that shows up on time, on brief, and on standard.",
+  trust: {
+    eyebrow: "Trusted By",
+    title: "Governments, universities, foundations, NGOs and global brands.",
+  },
+  insights: {
+    eyebrow: "Thinking & Publishing",
+    title: "Latest from the editorial desk.",
+  },
+} as const;
+
+/** Home "by the numbers" reel. */
+export const REEL_STATS: Stat[] = [
+  { value: "200+", label: "Photographers & Videographers" },
+  { value: "100+", label: "Vetted Creators & Influencers" },
+  { value: "26+", label: "Tanzanian Regions" },
+  { value: "12+", label: "Sector Niches" },
+  { value: "6", label: "Pan-African Markets" },
+];
+
 /* ---------- Service wings (home + services overview) ---------- */
 
 export const SERVICE_WINGS: ServiceWing[] = [
   {
     slug: "pr-media-communications",
-    href: "/services/pr-media-communications",
+    href: "/solutions/pr-strategic-communication",
     eyebrow: "Wing One",
     title: "PR, Media & Strategic Communication",
     shortDescription:
-      "Strategy, content production, reputation management, visual communication, media relations and pan-African distribution.",
+      "Reputation strategy, content production, media relations, executive branding, visual communication, event production, and pan-African distribution.",
     icon: "megaphone",
     areas: [
-      "Strategic PR & Communications",
-      "Content & Distribution",
-      "Branding & Visibility",
+      "Strategic PR",
+      "Content Studio",
+      "Reputation",
       "Executive Branding",
+      "Event Production",
     ],
-    cta: "Explore Communication Services",
+    cta: "Explore this wing",
   },
   {
     slug: "research-training-consultancy",
-    href: "/services/research-training-consultancy",
+    href: "/solutions/research-training-advisory",
     eyebrow: "Wing Two",
-    title: "Research, Training & Consultancy",
+    title: "Research, Training & Advisory",
     shortDescription:
-      "Evidence-led research, institutional diagnostics, leadership training, communication advisory and capacity-building programmes.",
+      "Evidence-led research, MEAL, institutional diagnostics, leadership training, editorial advisory, and capacity-building programmes for the sectors that build the continent.",
     icon: "search",
-    areas: [
-      "Research & Insights",
-      "Training & Capacity Building",
-      "Consultancy & Advisory",
-    ],
-    cta: "Explore Research & Advisory",
+    areas: ["Research", "MEAL", "Training", "Advisory", "Editorial"],
+    cta: "Explore this wing",
   },
   {
     slug: "technology-solutions",
-    href: "/services/technology-solutions",
+    href: "/solutions/ai-innovation",
     eyebrow: "Wing Three",
     title: "Technology, Solutions & Emerging Tech",
     shortDescription:
-      "Drone technology, surveillance, enterprise computing, communications infrastructure, emerging technology and complete systems integration.",
+      "Drone technology, AI, geospatial, surveillance, enterprise computing, communications infrastructure, software supply, and authorised dealership operations.",
     icon: "cpu",
     areas: [
-      "Drone Technology Supply",
-      "Security & Surveillance Systems",
-      "Computer & Computing",
-      "Communications Infrastructure",
-      "Advanced & Emerging Tech",
-      "Solutions Integration",
+      "Drone & GIS",
+      "AI",
+      "Surveillance",
+      "Software Supply",
+      "Authorised Dealer",
     ],
-    cta: "Explore Technology Solutions",
+    cta: "Explore this wing",
   },
 ];
 
@@ -318,43 +394,43 @@ export const WHY_CHOOSE: WhyChooseReason[] = [
   {
     title: "Integrated Capability",
     description:
-      "Communication, research, training, and technology supply under a single accountable group.",
+      "Communication, research, training, and technology supply under a single accountable group. No hand-offs, no dropped briefs.",
     icon: "layers",
   },
   {
     title: "Institutional-Grade Standards",
     description:
-      "Broadcast-quality production, editorial rigour, and governance frameworks suitable for governments, embassies, and listed corporates.",
+      "Broadcast-quality production, editorial rigour, and governance frameworks suited to governments, embassies, and listed corporates.",
     icon: "badgeCheck",
   },
   {
     title: "Nationwide On-Call Network",
     description:
-      "A network of 200 photographers, videographers, and drone pilots deployable across Tanzanian regions.",
+      "200 photographers, videographers, and drone pilots deployable across every Tanzanian region within a rapid mobilisation window.",
     icon: "network",
   },
   {
     title: "Creator Economy Infrastructure",
     description:
-      "More than 100 vetted content creators and influencers governed by editorial standards and prepared for sector-specific campaign activation.",
+      "Over 100 vetted content creators and influencers governed by editorial standards and prepared for sector-specific campaign activation.",
     icon: "users",
   },
   {
     title: "Tanzania Execution Partner",
     description:
-      "Permits, fixers, compliance, and country logistics handled for international clients.",
+      "Permits, fixers, compliance, and country logistics handled for international clients working in the East African market.",
     icon: "compass",
   },
   {
     title: "Pan-African Distribution Reach",
     description:
-      "Owned creator networks, institutional media partnerships, and regional desks capable of reaching audiences beyond a single market.",
+      "Owned creator networks, institutional media partnerships, and regional desks that reach audiences well beyond one market.",
     icon: "satellite",
   },
   {
     title: "Trusted Execution Partner",
     description:
-      "A confidential, discreet, and dependable partner for executives, security clients, and institutions where reputation is the asset.",
+      "A discreet, dependable partner for executives, security clients, and institutions where reputation is the primary asset.",
     icon: "fingerprint",
   },
 ];
@@ -365,50 +441,38 @@ export const CORE_VALUES: CoreValue[] = [
   {
     title: "Integrity",
     description:
-      "Honesty, transparency, and accountability in every mandate. Trust is the currency of our work.",
+      "We handle sensitive institutional work with discretion, honesty, and consistent standards. What we say we will do is what we do.",
     icon: "badgeCheck",
-  },
-  {
-    title: "Strategic Intelligence",
-    description:
-      "Every initiative is aligned with institutional objectives, market realities, and long-term positioning.",
-    icon: "brainCircuit",
-  },
-  {
-    title: "Innovation",
-    description:
-      "Continuous integration of AI, emerging technology, and new creative systems to expand reach and impact.",
-    icon: "lightbulb",
   },
   {
     title: "Excellence",
     description:
-      "Broadcast-grade production, editorial rigour, and premium execution across every touchpoint.",
+      "Broadcast-quality production, editorial rigour, and operational precision on every deliverable, whether the audience is one or one million.",
     icon: "award",
   },
   {
-    title: "Impact",
+    title: "Innovation",
     description:
-      "Our work strengthens reputations, amplifies development outcomes, and accelerates Africa’s transformation.",
-    icon: "target",
-  },
-  {
-    title: "African Excellence",
-    description:
-      "Africa deserves communication and technology systems capable of representing its people at global standards.",
-    icon: "landmark",
-  },
-  {
-    title: "Discretion",
-    description:
-      "Confidential, NDA-grade handling of sensitive institutional, executive, and government engagements.",
-    icon: "fingerprint",
+      "We adopt emerging technology early, but only where it delivers real value to the client. Novelty is not a strategy.",
+    icon: "lightbulb",
   },
   {
     title: "Partnership",
     description:
-      "Long-term relationships, shared accountability, and structured governance — not vendor transactions.",
+      "We build long-term relationships with clients, creators, suppliers, and the institutions we serve. Repeat work is the true metric.",
     icon: "handshake",
+  },
+  {
+    title: "African Rootedness",
+    description:
+      "We are of Africa. Our teams, our talent, our stories, and our decisions are grounded here, and speak from here.",
+    icon: "landmark",
+  },
+  {
+    title: "Accountability",
+    description:
+      "One team, one point of contact, one accountable result. Every time.",
+    icon: "target",
   },
 ];
 
@@ -416,36 +480,53 @@ export const CORE_VALUES: CoreValue[] = [
 
 export const TIMELINE: TimelineEntry[] = [
   {
-    year: "2019",
-    description:
-      "Founded in Dar es Salaam as a strategic communications and digital storytelling firm.",
-  },
-  {
-    year: "2021",
-    description: "Expanded into integrated media production and event coverage.",
-  },
-  {
     year: "2022",
-    description: "Launched creator economy and talent representation services.",
+    tag: "Founding",
+    title: "PrimeReach opens in Dar es Salaam.",
+    description:
+      "Founded as a strategic communication and media production practice, with an early focus on institutional clients and the education sector.",
   },
   {
     year: "2023",
+    tag: "Research Practice",
+    title: "The Research, Training & Advisory wing is formed.",
     description:
-      "Established livestream, hybrid event, and digital distribution capabilities.",
+      "PrimeReach begins delivering evidence-led research and capacity building for academic partners, NGOs, and multilateral clients.",
   },
   {
     year: "2024",
-    description: "Introduced AI-driven content systems and media infrastructure solutions.",
+    tag: "Technology Wing",
+    title: "Technology & Emerging Tech launches.",
+    description:
+      "The group formalises its technology practice, delivers its first drone and geospatial work, and begins the enterprise supply operation.",
+  },
+  {
+    year: "2024",
+    tag: "Creator Network",
+    title: "Vetted creator infrastructure crosses 100 talents.",
+    description:
+      "PrimeReach reaches 100 vetted creators governed under editorial standards, setting the foundation for the TCMA programme.",
   },
   {
     year: "2025",
+    tag: "Pan-African Expansion",
+    title: "Regional partnerships established across six markets.",
     description:
-      "Repositioned as an integrated digital infrastructure group with multiple specialised service divisions.",
+      "Formal desks and creator partnerships in Kenya, Uganda, Rwanda, DRC, South Africa, and Zambia extend distribution reach.",
   },
   {
     year: "2026",
+    tag: "TCMA Launched",
+    title: "Tanzania Creative Market Access goes live as our flagship.",
     description:
-      "Scaling pan-African partnerships, executive branding, and enterprise visibility platforms.",
+      "TCMA becomes the group’s flagship programme, connecting creators, brands, and institutions in one operating system.",
+  },
+  {
+    year: "2026",
+    tag: "Service-Line Expansion",
+    title: "Event Production, Software Supply, MEAL, and Authorised Dealer verticals added.",
+    description:
+      "The latest expansion widens the group’s operating catalogue while keeping the integrated three-wing architecture intact.",
   },
 ];
 
@@ -634,7 +715,7 @@ export const CLIENTS: ClientLogo[] = [
 /* ---------- Final CTA ---------- */
 
 export const FINAL_CTA = {
-  heading: "Let’s Build What Matters",
+  heading: "Let’s build what matters.",
   copy: "We welcome strategic conversations with institutions, partners, and collaborators across Africa and beyond.",
 } as const;
 
@@ -660,3 +741,43 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
 ];
 
 export const CONTACT_METHODS = ["Email", "Telephone", "WhatsApp"] as const;
+
+/* ---------- Contact page (v2) ---------- */
+
+export const CONTACT_PAGE = {
+  heroTitle: "Let us know what you are working on.",
+  heroSupporting:
+    "Tell us the outcome, the audience, and the timing. A member of our team will be back to you within one business day.",
+  directoryEyebrow: "Reach the Right Desk",
+  directoryTitle: "Department directory.",
+  directoryDescription:
+    "For faster routing on specialised enquiries, contact the desk directly.",
+} as const;
+
+export const CONTACT_SECTORS = [
+  "Government & Public Agency",
+  "Development & Multilateral",
+  "University & Research",
+  "Health",
+  "Enterprise & Corporate",
+  "Creator Economy",
+  "Other",
+] as const;
+
+export const SOLUTION_INTERESTS = [
+  "PR & Strategic Communication",
+  "Digital Transformation",
+  "Creative Media Production",
+  "AI & Innovation",
+  "Drone & Geospatial",
+  "Research & Advisory",
+] as const;
+
+export const DEPARTMENTS: Department[] = [
+  { title: "Business Development", email: "bd@primereachglobal.co.tz" },
+  { title: "Media Relations", email: "media@primereachglobal.co.tz" },
+  { title: "Research & Advisory", email: "research@primereachglobal.co.tz" },
+  { title: "Technology & Solutions", email: "tech@primereachglobal.co.tz" },
+  { title: "TCMA & Creator Relations", email: "tcma@primereachglobal.co.tz" },
+  { title: "Careers", email: "careers@primereachglobal.co.tz" },
+];
