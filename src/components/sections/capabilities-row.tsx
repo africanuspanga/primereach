@@ -1,28 +1,31 @@
 import Link from "next/link";
+import { getCapabilities, getHome } from "@/lib/content";
 import { CAPABILITIES } from "@/data/capabilities";
 import { HOME } from "@/data/site-content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Icon } from "@/components/ui/icon";
 
-/** Five-capability tile row shown on the home page. */
-export function CapabilitiesRow() {
+export async function CapabilitiesRow() {
+  const [capabilities, home] = await Promise.all([getCapabilities(), getHome()]);
+  const data = (home as typeof HOME | null) ?? HOME;
+
   return (
     <section className="bg-paper py-20 lg:py-28">
       <div className="container-x">
         <SectionHeading
           align="center"
-          eyebrow={HOME.capabilities.eyebrow}
+          eyebrow={data.capabilities.eyebrow}
           title={
             <>
               Five capabilities{" "}
               <span className="serif-italic text-bronze-600">behind every project.</span>
             </>
           }
-          description={HOME.capabilities.description}
+          description={data.capabilities.description}
         />
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {CAPABILITIES.map((capability, i) => (
+          {(capabilities.length > 0 ? capabilities : CAPABILITIES).map((capability, i) => (
             <Reveal key={capability.slug} delay={(i % 5) * 0.05} className="h-full">
               <Link
                 href={capability.href}

@@ -1,40 +1,40 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getSolutions, getHome } from "@/lib/content";
 import { SOLUTIONS } from "@/data/solutions";
 import { HOME } from "@/data/site-content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Icon } from "@/components/ui/icon";
 
-/**
- * Six-solution grid. Used on the home page and (headingless) on the Solutions
- * index. Each card links to its solution detail page.
- */
-export function SolutionsGrid({
+export async function SolutionsGrid({
   withHeading = true,
   className = "bg-white py-20 lg:py-28",
 }: {
   withHeading?: boolean;
   className?: string;
 }) {
+  const [solutions, home] = await Promise.all([getSolutions(), getHome()]);
+  const data = (home as typeof HOME | null) ?? HOME;
+
   return (
     <section className={className}>
       <div className="container-x">
         {withHeading && (
           <SectionHeading
             align="center"
-            eyebrow={HOME.solutions.eyebrow}
+            eyebrow={data.solutions.eyebrow}
             title={
               <>
                 Six solutions.{" "}
                 <span className="serif-italic text-bronze-600">One accountable partner.</span>
               </>
             }
-            description={HOME.solutions.description}
+            description={data.solutions.description}
           />
         )}
         <div className={`grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${withHeading ? "mt-14" : ""}`}>
-          {SOLUTIONS.map((solution, i) => (
+          {(solutions.length > 0 ? solutions : SOLUTIONS).map((solution, i) => (
             <Reveal key={solution.slug} delay={(i % 3) * 0.06} className="h-full">
               <Link
                 href={solution.href}

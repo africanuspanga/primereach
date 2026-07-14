@@ -1,3 +1,4 @@
+import { getHome } from "@/lib/content";
 import { HOME } from "@/data/site-content";
 import { MEDIA } from "@/lib/images";
 import { Button } from "@/components/ui/button";
@@ -5,20 +6,23 @@ import { Reveal } from "@/components/ui/reveal";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { ImageFrame } from "@/components/ui/image-frame";
 
-export function AboutPreview() {
+export async function AboutPreview() {
+  const home = (await getHome()) as typeof HOME | null;
+  const data = home ?? HOME;
+
   return (
     <section className="bg-white py-20 lg:py-28">
       <div className="container-x grid gap-14 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-20">
         <div className="order-2 lg:order-1">
           <Reveal>
-            <Eyebrow>{HOME.intro.eyebrow}</Eyebrow>
+            <Eyebrow>{data.intro.eyebrow}</Eyebrow>
             <h2 className="mt-6 text-pretty font-display text-[2rem] font-light leading-[1.1] text-ink sm:text-4xl lg:text-[2.85rem]">
               An integrated partner for the institutions{" "}
               <span className="serif-italic text-bronze-600">defining Africa’s future.</span>
             </h2>
           </Reveal>
           <div className="mt-7 space-y-5 text-[1.05rem] leading-relaxed text-muted">
-            {HOME.intro.body.map((para, i) => (
+            {data.intro.body.map((para, i) => (
               <Reveal key={i} delay={0.05 * (i + 1)}>
                 <p>{para}</p>
               </Reveal>
@@ -26,8 +30,8 @@ export function AboutPreview() {
           </div>
           <Reveal delay={0.24}>
             <div className="mt-9">
-              <Button href={HOME.intro.cta.href} withArrow variant="outline">
-                {HOME.intro.cta.label}
+              <Button href={data.intro.cta.href} withArrow variant="outline">
+                {data.intro.cta.label}
               </Button>
             </div>
           </Reveal>

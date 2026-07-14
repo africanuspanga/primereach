@@ -1,3 +1,4 @@
+import { getWhyChooseReasons } from "@/lib/content";
 import { WHY_CHOOSE } from "@/data/site-content";
 import { MEDIA } from "@/lib/images";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -6,7 +7,10 @@ import { Button } from "@/components/ui/button";
 import { ImageFrame } from "@/components/ui/image-frame";
 import { Icon } from "@/components/ui/icon";
 
-export function WhyChoose() {
+export async function WhyChoose() {
+  const reasons = await getWhyChooseReasons();
+  const data = reasons.length > 0 ? reasons : WHY_CHOOSE;
+
   return (
     <section className="bg-white py-20 lg:py-28">
       <div className="container-x grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
@@ -41,7 +45,7 @@ export function WhyChoose() {
 
         {/* Reasons list */}
         <div>
-          {WHY_CHOOSE.map((reason, i) => (
+          {data.map((reason, i) => (
             <Reveal key={reason.title} delay={(i % 3) * 0.05}>
               <article className="group flex gap-6 border-t border-ink/10 py-7 first:border-t-0 first:pt-0">
                 <span className="mt-1 font-display text-2xl font-light text-bronze/50 transition-colors duration-300 group-hover:text-bronze">

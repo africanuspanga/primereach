@@ -42,6 +42,7 @@ export interface ServiceWingDetail extends ServiceWing {
   intro: string;
   positioningLine?: string;
   categories: ServiceCategory[];
+  image?: string;
 }
 
 export interface WhyChooseReason {
@@ -135,6 +136,7 @@ export interface Solution {
   subServices: SubService[];
   approach?: ApproachStep[];
   closing: ClosingCta;
+  image?: string;
 }
 
 /** Cross-cutting offering (07–10) shown on the Solutions index only. */
@@ -197,6 +199,7 @@ export interface Capability {
   visualLabel: string;
   /** Special detail renderer. */
   variant?: "list" | "network" | "deployment";
+  image?: string;
 }
 
 export interface RegionCoverage {
@@ -220,6 +223,7 @@ export interface Programme {
   description: string;
   stats?: Stat[];
   cta?: LinkRef & { variant?: "primary" | "ink" | "ghost" };
+  image?: string;
 }
 
 export type InsightType = "Article" | "Report" | "News" | "Event";
@@ -229,6 +233,8 @@ export interface Insight {
   title: string;
   meta: string;
   image?: string;
+  is_teaser?: boolean;
+  is_featured?: boolean;
 }
 
 export interface Department {
