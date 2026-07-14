@@ -1,9 +1,10 @@
+import { getServiceWings } from "@/lib/content";
 import { SERVICE_WINGS } from "@/data/site-content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { ServiceWingCard } from "@/components/services/service-wing-card";
 
-export function ServiceWings({
+export async function ServiceWings({
   eyebrow = "One Integrated Ecosystem",
   title,
   description,
@@ -12,6 +13,9 @@ export function ServiceWings({
   title?: React.ReactNode;
   description?: string;
 }) {
+  const wings = await getServiceWings();
+  const data = wings.length > 0 ? wings : SERVICE_WINGS;
+
   return (
     <section className="bg-paper py-20 lg:py-28">
       <div className="container-x">
@@ -29,7 +33,7 @@ export function ServiceWings({
           description={description}
         />
         <div className="mt-16 grid gap-5 lg:grid-cols-3">
-          {SERVICE_WINGS.map((wing, i) => (
+          {data.map((wing, i) => (
             <Reveal key={wing.slug} delay={i * 0.1} className="h-full">
               <ServiceWingCard wing={wing} />
             </Reveal>

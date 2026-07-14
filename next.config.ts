@@ -1,16 +1,28 @@
 import type { NextConfig } from "next";
 
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+  : undefined;
+
 const nextConfig: NextConfig = {
-  // Static HTML export → outputs a fully static site to ./out that can be
-  // hosted on any static host (Render Static Site, Netlify, GitHub Pages, S3…).
-  output: "export",
+  // Dynamic/ISR hosting (Model B). Remove static export to enable server
+  // features: Server Actions, API routes, middleware, and on-demand revalidation.
+  // output: "export",
 
-  // Static export has no image optimization server, so images are served as-is.
-  // (Consider compressing the source photos — some are 15–20MB.)
-  images: { unoptimized: true },
+  // Re-enable image optimisation now that a Node server is available.
+  images: {
+    remotePatterns: supabaseHost
+      ? [
+          {
+            protocol: "https",
+            hostname: supabaseHost,
+            pathname: "/storage/v1/object/public/**",
+          },
+        ]
+      : [],
+  },
 
-  // Emit directory-style routes (e.g. /about/index.html) so static hosts serve
-  // clean URLs reliably without extra rewrite rules.
+  // Emit directory-style routes for clean URLs.
   trailingSlash: true,
 
   // Hide the on-screen Next.js dev indicator badge.

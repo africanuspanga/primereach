@@ -1,21 +1,31 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { getInsights, getHome } from "@/lib/content";
 import { INSIGHTS_TEASER } from "@/data/insights";
 import { HOME } from "@/data/site-content";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
 import { InsightCard } from "@/components/insights/insight-card";
 
-/** "Latest from the editorial desk" — three-item insights teaser. */
-export function InsightsTeaser() {
+export async function InsightsTeaser() {
+  const [insights, home] = await Promise.all([getInsights(), getHome()]);
+  const data = (home as typeof HOME | null) ?? HOME;
+
+  // Prefer items marked as teaser, then first three.
+  const teaser = insights.length > 0
+    ? insights.filter((i) => i.is_teaser).slice(0, 3).length > 0
+      ? insights.filter((i) => i.is_teaser).slice(0, 3)
+      : insights.slice(0, 3)
+    : INSIGHTS_TEASER;
+
   return (
     <section className="bg-paper py-20 lg:py-28">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <Reveal>
-            <Eyebrow>{HOME.insights.eyebrow}</Eyebrow>
+            <Eyebrow>{data.insights.eyebrow}</Eyebrow>
             <h2 className="mt-5 text-pretty font-display text-[2rem] font-light text-ink sm:text-4xl">
-              {HOME.insights.title}
+              {data.insights.title}
             </h2>
           </Reveal>
           <Reveal delay={0.05}>
@@ -29,7 +39,7 @@ export function InsightsTeaser() {
           </Reveal>
         </div>
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {INSIGHTS_TEASER.map((insight, i) => (
+          {teaser.map((insight, i) => (
             <Reveal key={insight.title} delay={i * 0.08} className="h-full">
               <InsightCard insight={insight} />
             </Reveal>

@@ -4,17 +4,23 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Mail, Menu, Phone } from "lucide-react";
-import { CONTACT, CTA, MAIN_NAV, SITE } from "@/lib/constants";
+import { CTA, MAIN_NAV, SITE, CONTACT } from "@/lib/constants";
+import type { NavItem } from "@/types/content";
+import type { SiteSettings, ContactSettings } from "@/lib/content/settings";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 
-/**
- * Sticky header. A slim utility bar sits over the hero and collapses on scroll;
- * the nav is transparent over the (dark) hero and turns to a solid white bar.
- */
-export function SiteHeader() {
+export function SiteHeader({
+  site = SITE as SiteSettings,
+  contact = CONTACT as unknown as ContactSettings,
+  nav = MAIN_NAV,
+}: {
+  site?: SiteSettings;
+  contact?: ContactSettings;
+  nav?: NavItem[];
+}) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -51,21 +57,21 @@ export function SiteHeader() {
           )}
         >
           <div className="container-x flex h-11 items-center justify-between text-xs text-white/70">
-            <span className="eyebrow text-bronze-300">{SITE.slogan}</span>
+            <span className="eyebrow text-bronze-300">{site.slogan}</span>
             <div className="hidden items-center gap-6 sm:flex">
               <a
-                href={CONTACT.phonePrimary.href}
+                href={contact.phonePrimary.href}
                 className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
               >
                 <Phone className="size-3.5" />
-                {CONTACT.phonePrimary.display}
+                {contact.phonePrimary.display}
               </a>
               <a
-                href={`mailto:${CONTACT.email}`}
+                href={`mailto:${contact.email}`}
                 className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
               >
                 <Mail className="size-3.5" />
-                {CONTACT.email}
+                {contact.email}
               </a>
             </div>
           </div>
@@ -75,7 +81,7 @@ export function SiteHeader() {
           <Logo onDark={!solid} />
 
           <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
-            {MAIN_NAV.map((item) =>
+            {nav.map((item) =>
               item.children ? (
                 <div key={item.href} className="group relative">
                   <Link
@@ -143,7 +149,7 @@ export function SiteHeader() {
         </div>
       </header>
 
-      <MobileNavigation open={menuOpen} onClose={() => setMenuOpen(false)} isActive={isActive} />
+      <MobileNavigation open={menuOpen} onClose={() => setMenuOpen(false)} isActive={isActive} nav={nav} />
     </>
   );
 }

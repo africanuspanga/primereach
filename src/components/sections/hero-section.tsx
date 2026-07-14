@@ -1,13 +1,13 @@
+import { getHero } from "@/lib/content";
 import { HERO } from "@/data/site-content";
 import { MEDIA } from "@/lib/images";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 
-/**
- * Cinematic homepage hero. Looping brand video under a navy cinematic wash,
- * with a short serif headline (≤5 words, italic bronze accent) and a tight line.
- */
-export function HeroSection() {
+export async function HeroSection() {
+  const hero = (await getHero()) as typeof HERO | null;
+  const data = hero ?? HERO;
+
   return (
     <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink-900">
       {/* Background video */}
@@ -42,37 +42,37 @@ export function HeroSection() {
           <Reveal>
             <span className="eyebrow inline-flex items-center gap-3 text-bronze-300">
               <span className="h-px w-8 bg-bronze-300/70" />
-              {HERO.eyebrow}
+              {data.eyebrow}
             </span>
           </Reveal>
 
           <Reveal delay={0.1}>
             <h1 className="mt-7 font-display text-[3.25rem] font-light leading-[0.98] tracking-[-0.02em] text-white sm:text-7xl lg:text-[6.5rem]">
-              {HERO.headlineLead}{" "}
-              <span className="serif-italic text-bronze-300">{HERO.headlineAccent}.</span>
+              {data.headlineLead}{" "}
+              <span className="serif-italic text-bronze-300">{data.headlineAccent}.</span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.2}>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/75 sm:text-xl">
-              {HERO.supporting}
+              {data.supporting}
             </p>
           </Reveal>
 
           <Reveal delay={0.3}>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Button href={HERO.primaryCta.href} size="lg" withArrow>
-                {HERO.primaryCta.label}
+              <Button href={data.primaryCta.href} size="lg" withArrow>
+                {data.primaryCta.label}
               </Button>
-              <Button href={HERO.secondaryCta.href} size="lg" variant="onDark">
-                {HERO.secondaryCta.label}
+              <Button href={data.secondaryCta.href} size="lg" variant="onDark">
+                {data.secondaryCta.label}
               </Button>
             </div>
           </Reveal>
 
           <Reveal delay={0.4}>
             <p className="mt-11 text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-white/45">
-              {HERO.audiences}
+              {data.audiences}
             </p>
           </Reveal>
         </div>

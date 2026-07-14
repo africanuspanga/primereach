@@ -1,16 +1,11 @@
 import Image from "next/image";
+import { getClients } from "@/lib/content";
 import { CLIENTS } from "@/data/site-content";
 import type { ClientLogo } from "@/types/content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/utils";
 
-/**
- * Client / partner logos.
- *  - variant="marquee": auto-scrolling carousel (homepage)
- *  - variant="grid": static responsive grid (clients page)
- * Logos render greyscale and lift to full colour on hover for a calm wall.
- */
-export function ClientLogoGrid({
+export async function ClientLogoGrid({
   variant = "grid",
   heading = "Strategic Clients and Partners",
   eyebrow = "Trusted By",
@@ -21,6 +16,9 @@ export function ClientLogoGrid({
   eyebrow?: string;
   description?: string;
 }) {
+  const clients = await getClients();
+  const data: ClientLogo[] = clients.length > 0 ? clients : CLIENTS;
+
   return (
     <section className="bg-white py-20 lg:py-24">
       <div className="container-x">
@@ -35,7 +33,7 @@ export function ClientLogoGrid({
       {variant === "marquee" ? (
         <div className="marquee-mask relative mt-14 flex overflow-hidden">
           <div className="flex shrink-0 animate-marquee items-center gap-4 pr-4 hover:[animation-play-state:paused]">
-            {[...CLIENTS, ...CLIENTS].map((client, i) => (
+            {[...data, ...data].map((client, i) => (
               <LogoTile key={`${client.name}-${i}`} client={client} />
             ))}
           </div>
@@ -43,7 +41,7 @@ export function ClientLogoGrid({
       ) : (
         <div className="container-x mt-14">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {CLIENTS.map((client) => (
+            {data.map((client) => (
               <LogoTile key={client.name} client={client} full />
             ))}
           </div>

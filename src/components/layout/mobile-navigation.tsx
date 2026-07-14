@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, X } from "lucide-react";
 import { CONTACT, CTA, MAIN_NAV } from "@/lib/constants";
+import type { NavItem } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
@@ -14,10 +15,12 @@ export function MobileNavigation({
   open,
   onClose,
   isActive,
+  nav = MAIN_NAV,
 }: {
   open: boolean;
   onClose: () => void;
   isActive: (href: string) => boolean;
+  nav?: NavItem[];
 }) {
   const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -75,7 +78,7 @@ export function MobileNavigation({
 
             <nav className="flex-1 overflow-y-auto px-4 py-6" aria-label="Mobile">
               <ul className="flex flex-col gap-1">
-                {MAIN_NAV.map((item) => (
+                {nav.map((item) => (
                   <li key={item.href}>
                     {item.children ? (
                       <div className="rounded-2xl">

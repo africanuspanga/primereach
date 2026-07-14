@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getHome } from "@/lib/content";
 import { HOME } from "@/data/site-content";
 import { MEDIA } from "@/lib/images";
 import { Button } from "@/components/ui/button";
@@ -6,8 +7,10 @@ import { Reveal } from "@/components/ui/reveal";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { StatCounter } from "@/components/ui/stat-counter";
 
-/** Flagship programme (TCMA) feature band on the home page. */
-export function TcmaBand() {
+export async function TcmaBand() {
+  const home = (await getHome()) as typeof HOME | null;
+  const data = home ?? HOME;
+
   return (
     <section className="relative overflow-hidden bg-ink-900 py-20 lg:py-28">
       <div className="bg-grid pointer-events-none absolute inset-0 opacity-15" />
@@ -36,19 +39,19 @@ export function TcmaBand() {
 
         <div className="order-1 lg:order-2">
           <Reveal>
-            <Eyebrow onDark>{HOME.tcma.eyebrow}</Eyebrow>
+            <Eyebrow onDark>{data.tcma.eyebrow}</Eyebrow>
             <h2 className="mt-6 text-pretty font-display text-[2rem] font-light leading-[1.1] text-white sm:text-4xl lg:text-[2.75rem]">
-              {HOME.tcma.title}
+              {data.tcma.title}
             </h2>
           </Reveal>
-          {HOME.tcma.body.map((paragraph, i) => (
+          {data.tcma.body.map((paragraph, i) => (
             <Reveal key={i} delay={0.06 * (i + 1)}>
               <p className="mt-5 text-[1.02rem] leading-relaxed text-white/70">{paragraph}</p>
             </Reveal>
           ))}
           <Reveal delay={0.2}>
             <div className="mt-8 flex flex-wrap gap-x-10 gap-y-6">
-              {HOME.tcma.stats.map((stat) => (
+              {data.tcma.stats.map((stat) => (
                 <div key={stat.label}>
                   <StatCounter
                     value={stat.value}
@@ -63,8 +66,8 @@ export function TcmaBand() {
           </Reveal>
           <Reveal delay={0.25}>
             <div className="mt-9">
-              <Button href={HOME.tcma.cta.href} withArrow>
-                {HOME.tcma.cta.label}
+              <Button href={data.tcma.cta.href} withArrow>
+                {data.tcma.cta.label}
               </Button>
             </div>
           </Reveal>

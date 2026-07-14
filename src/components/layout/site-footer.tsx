@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from "lucide-react";
-import { CONTACT, CTA, SITE } from "@/lib/constants";
+import { getSite, getContact } from "@/lib/content";
+import { SITE, CONTACT, CTA } from "@/lib/constants";
 import { Logo } from "@/components/layout/logo";
 
 const companyLinks = [
@@ -27,7 +28,11 @@ const legalLinks = [
   { label: "Sitemap", href: "/sitemap.xml" },
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const [site, contact] = await Promise.all([getSite(), getContact()]);
+  const siteData = site ?? SITE;
+  const contactData = contact ?? CONTACT;
+
   return (
     <footer className="border-t-2 border-bronze bg-ink text-white/70">
       {/* Top band — serif invitation */}
@@ -50,7 +55,7 @@ export function SiteFooter() {
       <div className="container-x grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-12 lg:gap-8 lg:py-20">
         <div className="lg:col-span-4">
           <Logo onDark />
-          <p className="mt-6 eyebrow text-bronze-300">{SITE.slogan}</p>
+          <p className="mt-6 eyebrow text-bronze-300">{siteData.slogan}</p>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/55">
             Africa’s integrated digital infrastructure group. We build the
             communication, media, research, and technology backbone that powers
@@ -79,26 +84,26 @@ export function SiteFooter() {
             <li className="flex items-start gap-3">
               <MapPin className="mt-0.5 size-4 shrink-0 text-bronze-300" />
               <span className="text-white/55">
-                {CONTACT.address.city}, {CONTACT.address.country}
+                {contactData.address.city}, {contactData.address.country}
               </span>
             </li>
             <li className="flex items-start gap-3">
               <Mail className="mt-0.5 size-4 shrink-0 text-bronze-300" />
               <a
-                href={`mailto:${CONTACT.email}`}
+                href={`mailto:${contactData.email}`}
                 className="break-all text-white/55 transition-colors hover:text-white"
               >
-                {CONTACT.email}
+                {contactData.email}
               </a>
             </li>
             <li className="flex items-start gap-3">
               <Phone className="mt-0.5 size-4 shrink-0 text-bronze-300" />
               <span className="flex flex-col gap-1">
-                <a href={CONTACT.phonePrimary.href} className="text-white/55 transition-colors hover:text-white">
-                  {CONTACT.phonePrimary.display}
+                <a href={contactData.phonePrimary.href} className="text-white/55 transition-colors hover:text-white">
+                  {contactData.phonePrimary.display}
                 </a>
-                <a href={CONTACT.phoneSecondary.href} className="text-white/55 transition-colors hover:text-white">
-                  {CONTACT.phoneSecondary.display}
+                <a href={contactData.phoneSecondary.href} className="text-white/55 transition-colors hover:text-white">
+                  {contactData.phoneSecondary.display}
                 </a>
               </span>
             </li>
@@ -114,7 +119,7 @@ export function SiteFooter() {
 
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col items-center justify-between gap-4 py-6 text-sm text-white/45 sm:flex-row">
-          <p>© 2026 {SITE.name}. All rights reserved.</p>
+          <p>© 2026 {siteData.name}. All rights reserved.</p>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {legalLinks.map((link) => (
               <li key={link.href}>

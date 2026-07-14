@@ -3,19 +3,7 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
 import { CONTACT_SECTORS, SOLUTION_INTERESTS } from "@/data/site-content";
-import { CONTACT } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-
-/*
- * FRONTEND-ONLY CONTACT FORM
- * --------------------------------------------------------------------------
- * There is no backend yet. On submit we compose a `mailto:` link so the
- * visitor's email client opens with the enquiry pre-filled.
- *
- * TO CONNECT A REAL ENDPOINT LATER (Formspree / Resend / route handler):
- * replace `handleSubmit` with a `fetch()` to your endpoint and show real
- * success / error states.
- */
 
 const initialState = {
   name: "",
@@ -33,6 +21,7 @@ const fieldClasses =
 
 export function ContactForm() {
   const [form, setForm] = useState(initialState);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -47,29 +36,49 @@ export function ContactForm() {
     }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setStatus("submitting");
 
-    const body = [
-      `Name: ${form.name}`,
-      `Organisation: ${form.organisation}`,
-      `Role: ${form.role}`,
-      `Email: ${form.email}`,
-      `Phone: ${form.phone}`,
-      `Sector: ${form.sector || "Not specified"}`,
-      `Interest: ${form.interests.length ? form.interests.join(", ") : "Not specified"}`,
-      "",
-      "Message:",
-      form.message,
-    ].join("\n");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          sector: form.sector,
+          service: form.interests.join(", ") || undefined,
+          message: [
+            form.organisation && `Organisation: ${form.organisation}`,
+            form.role && `Role: ${form.role}`,
+            "",
+            "Message:",
+            form.message,
+          ]
+            .filter(Boolean)
+            .join("\n"),
+        }),
+      });
 
-    const subject = form.organisation
-      ? `Enquiry — ${form.organisation}`
-      : "Enquiry — PrimeReach";
+      if (!res.ok) throw new Error("Failed to submit");
+      setStatus("success");
+      setForm(initialState);
+    } catch {
+      setStatus("error");
+    }
+  }
 
-    window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`;
+  if (status === "success") {
+    return (
+      <div className="rounded-2xl border border-ink/10 bg-paper p-8 text-center">
+        <h3 className="font-display text-xl font-normal text-ink">Message sent</h3>
+        <p className="mt-2 text-sm text-muted">
+          Thank you for reaching out. A member of our team will be back to you within one business day.
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -188,16 +197,23 @@ export function ContactForm() {
         />
       </Field>
 
+      {status === "error" && (
+        <p className="text-sm text-red-600">
+          Something went wrong. Please try again or email us directly.
+        </p>
+      )}
+
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
           type="submit"
-          className="group/btn inline-flex h-12 items-center justify-center gap-2 rounded-full bg-bronze px-7 text-sm font-semibold text-white shadow-[0_10px_30px_-12px_rgba(213,132,52,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-bronze-600"
+          disabled={status === "submitting"}
+          className="group/btn inline-flex h-12 items-center justify-center gap-2 rounded-full bg-bronze px-7 text-sm font-semibold text-white shadow-[0_10px_30px_-12px_rgba(213,132,52,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-bronze-600 disabled:opacity-60"
         >
           <Send className="size-4" />
-          Send message
+          {status === "submitting" ? "Sending…" : "Send message"}
         </button>
         <p className="text-xs text-muted">
-          This opens your email app with the details pre-filled.
+          Your enquiry will be routed to the right desk.
         </p>
       </div>
     </form>

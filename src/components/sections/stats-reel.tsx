@@ -1,14 +1,17 @@
+import { getHome, getReelStats } from "@/lib/content";
 import { HOME, REEL_STATS } from "@/data/site-content";
 import { Reveal } from "@/components/ui/reveal";
 import { StatCounter } from "@/components/ui/stat-counter";
 
-/** Dark "by the numbers" reel with a serif caption. */
-export function StatsReel() {
+export async function StatsReel() {
+  const [home, stats] = await Promise.all([getHome(), getReelStats()]);
+  const data = (home as typeof HOME | null) ?? HOME;
+
   return (
     <section className="bg-ink py-16 lg:py-20">
       <div className="container-x">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 text-center sm:grid-cols-3 lg:grid-cols-5">
-          {REEL_STATS.map((stat, i) => (
+          {(stats.length > 0 ? stats : REEL_STATS).map((stat, i) => (
             <Reveal
               key={stat.label}
               delay={i * 0.05}
@@ -25,7 +28,7 @@ export function StatsReel() {
           ))}
         </div>
         <p className="mt-12 text-center font-display text-lg font-light italic text-white/70 lg:text-xl">
-          {HOME.reelCaption}
+          {data.reelCaption}
         </p>
       </div>
     </section>
