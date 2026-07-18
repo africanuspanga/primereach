@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getAbout, getCoreValues, getTimeline } from "@/lib/content";
 import { ABOUT, CORE_VALUES, TIMELINE } from "@/data/site-content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
@@ -17,13 +18,20 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [aboutData, coreValues, timeline] = await Promise.all([
+    getAbout(),
+    getCoreValues(),
+    getTimeline(),
+  ]);
+  const about = (aboutData as typeof ABOUT | null) ?? ABOUT;
+
   return (
     <>
       <PageHero
         eyebrow="About PrimeReach"
-        title={ABOUT.pageHeroTitle}
-        description={ABOUT.pageHeroSupporting}
+        title={about.pageHeroTitle}
+        description={about.pageHeroSupporting}
         image={MEDIA.pageHero.about}
       />
 
@@ -32,7 +40,7 @@ export default function AboutPage() {
         <div className="container-x grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           <div>
             <SectionHeading
-              eyebrow={ABOUT.companyEyebrow}
+              eyebrow={about.companyEyebrow}
               title={
                 <>
                   The company behind the{" "}
@@ -42,7 +50,7 @@ export default function AboutPage() {
             />
           </div>
           <div className="space-y-5 text-[1.05rem] leading-relaxed text-muted">
-            {ABOUT.company.map((para, i) => (
+            {about.company.map((para, i) => (
               <Reveal key={i} delay={i * 0.06}>
                 <p
                   className={
@@ -63,7 +71,7 @@ export default function AboutPage() {
       <section id="mission-vision" className="scroll-mt-28 bg-paper py-20 lg:py-28">
         <div className="container-x">
           <SectionHeading
-            eyebrow={ABOUT.mvEyebrow}
+            eyebrow={about.mvEyebrow}
             title={
               <>
                 Mission &amp; <span className="serif-italic text-bronze-600">Vision.</span>
@@ -73,12 +81,12 @@ export default function AboutPage() {
           <div className="mt-14 grid gap-6 lg:grid-cols-2">
             <Reveal>
               <div className="flex h-full flex-col rounded-[1.75rem] border border-ink/10 border-l-4 border-l-bronze bg-white p-8 lg:p-11">
-                <Eyebrow>{ABOUT.mission.kicker}</Eyebrow>
+                <Eyebrow>{about.mission.kicker}</Eyebrow>
                 <h3 className="mt-5 font-display text-2xl font-light text-ink">
-                  {ABOUT.mission.heading}
+                  {about.mission.heading}
                 </h3>
                 <p className="mt-4 font-display text-lg font-light italic leading-relaxed text-ink/80">
-                  {ABOUT.mission.body}
+                  {about.mission.body}
                 </p>
               </div>
             </Reveal>
@@ -88,12 +96,12 @@ export default function AboutPage() {
                   className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full opacity-30 blur-3xl"
                   style={{ background: "radial-gradient(circle,#b87c42,transparent 70%)" }}
                 />
-                <Eyebrow onDark>{ABOUT.vision.kicker}</Eyebrow>
+                <Eyebrow onDark>{about.vision.kicker}</Eyebrow>
                 <h3 className="mt-5 font-display text-2xl font-light text-white">
-                  {ABOUT.vision.heading}
+                  {about.vision.heading}
                 </h3>
                 <p className="mt-4 font-display text-lg font-light italic leading-relaxed text-white/80">
-                  {ABOUT.vision.body}
+                  {about.vision.body}
                 </p>
               </div>
             </Reveal>
@@ -106,16 +114,16 @@ export default function AboutPage() {
         <div className="container-x">
           <SectionHeading
             align="center"
-            eyebrow={ABOUT.valuesEyebrow}
+            eyebrow={about.valuesEyebrow}
             title={
               <>
                 Our core <span className="serif-italic text-bronze-600">values.</span>
               </>
             }
-            description={ABOUT.valuesDescription}
+            description={about.valuesDescription}
           />
           <div className="mt-14 grid gap-px overflow-hidden rounded-[1.5rem] border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-3">
-            {CORE_VALUES.map((value, i) => (
+            {coreValues.map((value, i) => (
               <Reveal
                 key={value.title}
                 delay={(i % 3) * 0.05}
@@ -146,12 +154,12 @@ export default function AboutPage() {
         <div className="container-x">
           <SectionHeading
             align="center"
-            eyebrow={ABOUT.journeyEyebrow}
-            title={ABOUT.journeyTitle}
-            description={ABOUT.journeyDescription}
+            eyebrow={about.journeyEyebrow}
+            title={about.journeyTitle}
+            description={about.journeyDescription}
           />
           <div className="mt-14">
-            <Timeline entries={TIMELINE} />
+            <Timeline entries={timeline} />
           </div>
         </div>
       </section>
@@ -170,9 +178,9 @@ export default function AboutPage() {
       </section>
 
       <CallToAction
-        eyebrow={ABOUT.closing.eyebrow}
-        heading={ABOUT.closing.heading}
-        copy={ABOUT.closing.copy}
+        eyebrow={about.closing.eyebrow}
+        heading={about.closing.heading}
+        copy={about.closing.copy}
       />
     </>
   );

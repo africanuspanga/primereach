@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { CASE_STUDIES_FEATURED, IMPACT_INDEX } from "@/data/impact";
+import { IMPACT_INDEX } from "@/data/impact";
+import { getBlock, getFeaturedCaseStudies } from "@/lib/content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { ClosingCtaSection } from "@/components/sections/closing-cta";
@@ -13,7 +14,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/impact" },
 };
 
-export default function ImpactPage() {
+export default async function ImpactPage() {
+  const [intro, featuredCaseStudies] = await Promise.all([
+    getBlock<typeof IMPACT_INDEX>("impact_index").then((b) => b ?? IMPACT_INDEX),
+    getFeaturedCaseStudies(),
+  ]);
+
   return (
     <>
       <PageHero
@@ -24,7 +30,7 @@ export default function ImpactPage() {
             <span className="serif-italic text-bronze-300">what we left behind.</span>
           </>
         }
-        description={IMPACT_INDEX.heroLede}
+        description={intro.heroLede}
         image={MEDIA.pageHero.impact}
       />
 
@@ -32,7 +38,7 @@ export default function ImpactPage() {
         <div className="container-x">
           <ImpactTabs />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {CASE_STUDIES_FEATURED.map((study, i) => (
+            {featuredCaseStudies.map((study, i) => (
               <Reveal key={study.client} delay={(i % 3) * 0.05} className="h-full">
                 <CaseCard study={study} />
               </Reveal>
@@ -41,7 +47,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <ClosingCtaSection cta={IMPACT_INDEX.closing} />
+      <ClosingCtaSection cta={intro.closing} />
     </>
   );
 }

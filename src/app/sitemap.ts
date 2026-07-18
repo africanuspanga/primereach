@@ -1,12 +1,10 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/constants";
-import { SOLUTIONS } from "@/data/solutions";
-import { CAPABILITIES } from "@/data/capabilities";
+import { getSolutions, getCapabilities } from "@/lib/content";
 
-// Required for `output: export` — emit a static sitemap.xml at build time.
-export const dynamic = "force-static";
+// Regenerate periodically so solutions/capabilities added via the CMS appear.
+export const revalidate = 3600;
 
-// Static export-friendly timestamp; bump when content materially changes.
 const LAST_MODIFIED = new Date("2026-07-13");
 
 type ChangeFrequency = MetadataRoute.Sitemap[number]["changeFrequency"];
@@ -31,19 +29,24 @@ const staticRoutes: Entry[] = [
   { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
 ];
 
-const solutionRoutes: Entry[] = SOLUTIONS.map((solution) => ({
-  path: solution.href,
-  priority: 0.8,
-  changeFrequency: "monthly",
-}));
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [solutions, capabilities] = await Promise.all([
+    getSolutions(),
+    getCapabilities(),
+  ]);
 
-const capabilityRoutes: Entry[] = CAPABILITIES.map((capability) => ({
-  path: capability.href,
-  priority: 0.7,
-  changeFrequency: "monthly",
-}));
+  const solutionRoutes: Entry[] = solutions.map((solution) => ({
+    path: solution.href,
+    priority: 0.8,
+    changeFrequency: "monthly",
+  }));
 
-export default function sitemap(): MetadataRoute.Sitemap {
+  const capabilityRoutes: Entry[] = capabilities.map((capability) => ({
+    path: capability.href,
+    priority: 0.7,
+    changeFrequency: "monthly",
+  }));
+
   return [...staticRoutes, ...solutionRoutes, ...capabilityRoutes].map(
     ({ path, priority, changeFrequency }) => ({
       url: `${SITE.url}${path}`,

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Quote } from "lucide-react";
-import { TESTIMONIALS } from "@/data/impact";
+import { getTestimonials } from "@/lib/content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { CallToAction } from "@/components/sections/call-to-action";
@@ -14,7 +14,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/impact/testimonials" },
 };
 
-export default function TestimonialsPage() {
+export default async function TestimonialsPage() {
+  const testimonials = await getTestimonials();
+
   return (
     <>
       <PageHero
@@ -32,7 +34,7 @@ export default function TestimonialsPage() {
         <div className="container-x">
           <ImpactTabs />
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            {TESTIMONIALS.map((testimonial, i) => (
+            {testimonials.map((testimonial, i) => (
               <Reveal key={`${testimonial.initials}-${testimonial.org}`} delay={(i % 2) * 0.06} className="h-full">
                 <figure className="flex h-full flex-col rounded-[1.5rem] border border-ink/10 border-l-4 border-l-bronze bg-white p-8 lg:p-10">
                   <Quote className="size-8 text-bronze/30" />

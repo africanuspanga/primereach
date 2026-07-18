@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTcma } from "@/lib/content";
 import { TCMA } from "@/data/programmes";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
@@ -13,44 +14,46 @@ export const metadata: Metadata = {
   alternates: { canonical: "/programmes/tcma" },
 };
 
-export default function TcmaPage() {
+export default async function TcmaPage() {
+  const tcma = ((await getTcma()) as typeof TCMA | null) ?? TCMA;
+
   return (
     <>
       <PageHero
         eyebrow="Flagship Programme"
-        title={TCMA.heroTitle}
-        description={TCMA.heroTagline}
+        title={tcma.heroTitle}
+        description={tcma.heroTagline}
         image={MEDIA.programmes.tcma}
       />
 
       <section className="bg-white py-20 lg:py-24">
         <div className="container-x">
           <SectionHeading
-            eyebrow={TCMA.whatIs.eyebrow}
-            title={TCMA.whatIs.title}
-            description={TCMA.whatIs.description}
+            eyebrow={tcma.whatIs.eyebrow}
+            title={tcma.whatIs.title}
+            description={tcma.whatIs.description}
           />
           <div className="mt-12">
-            <SubServiceGrid items={TCMA.pillars} columns={2} />
+            <SubServiceGrid items={tcma.pillars} columns={2} />
           </div>
         </div>
       </section>
 
       <section className="bg-paper py-20 lg:py-24">
         <div className="container-x">
-          <SectionHeading eyebrow={TCMA.engage.eyebrow} title={TCMA.engage.title} />
+          <SectionHeading eyebrow={tcma.engage.eyebrow} title={tcma.engage.title} />
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             <Reveal>
               <div className="flex h-full flex-col rounded-[1.75rem] border border-ink/10 border-t-4 border-t-bronze bg-white p-8 lg:p-11">
                 <h3 className="font-display text-2xl font-normal text-ink">
-                  {TCMA.engage.bench.title}
+                  {tcma.engage.bench.title}
                 </h3>
                 <p className="mt-4 flex-1 leading-relaxed text-muted">
-                  {TCMA.engage.bench.description}
+                  {tcma.engage.bench.description}
                 </p>
                 <div className="mt-7">
-                  <Button href={TCMA.engage.bench.cta.href} withArrow>
-                    {TCMA.engage.bench.cta.label}
+                  <Button href={tcma.engage.bench.cta.href} withArrow>
+                    {tcma.engage.bench.cta.label}
                   </Button>
                 </div>
               </div>
@@ -58,14 +61,14 @@ export default function TcmaPage() {
             <Reveal delay={0.08}>
               <div className="flex h-full flex-col rounded-[1.75rem] border border-ink/10 border-t-4 border-t-ink bg-white p-8 lg:p-11">
                 <h3 className="font-display text-2xl font-normal text-ink">
-                  {TCMA.engage.campaign.title}
+                  {tcma.engage.campaign.title}
                 </h3>
                 <p className="mt-4 flex-1 leading-relaxed text-muted">
-                  {TCMA.engage.campaign.description}
+                  {tcma.engage.campaign.description}
                 </p>
                 <div className="mt-7">
-                  <Button href={TCMA.engage.campaign.cta.href} variant="ink" withArrow>
-                    {TCMA.engage.campaign.cta.label}
+                  <Button href={tcma.engage.campaign.cta.href} variant="ink" withArrow>
+                    {tcma.engage.campaign.cta.label}
                   </Button>
                 </div>
               </div>

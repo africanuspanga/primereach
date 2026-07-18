@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { mediaUrl } from "@/lib/media";
+import { resolveImage } from "@/lib/media";
 import { withFallback } from "./utils";
 import { SOLUTIONS, CROSS_CUTTING } from "@/data/solutions";
 import { SERVICE_WINGS, SERVICE_WING_DETAILS } from "@/data/site-content";
@@ -20,7 +20,7 @@ function rowToSolution(r: any): Solution {
     subServices: r.sub_services ?? [],
     approach: r.approach ?? [],
     closing: r.closing,
-    image: mediaUrl(r.image) ?? undefined,
+    image: resolveImage(r.image) ?? undefined,
   };
 }
 
@@ -91,7 +91,7 @@ function rowToServiceWing(r: any): ServiceWingDetail {
     intro: r.intro ?? "",
     positioningLine: r.positioning_line ?? undefined,
     categories: r.categories ?? [],
-    image: mediaUrl(r.image) ?? undefined,
+    image: resolveImage(r.image) ?? undefined,
   };
 }
 

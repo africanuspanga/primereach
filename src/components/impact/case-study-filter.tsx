@@ -2,17 +2,18 @@
 
 import { useState } from "react";
 import { CASE_STUDIES, CASE_STUDY_FILTERS } from "@/data/impact";
+import type { CaseStudy } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/ui/reveal";
 import { CaseCard } from "@/components/impact/case-card";
 
 /** Filterable case-study grid (client-side filter by sector). */
-export function CaseStudyFilter() {
+export function CaseStudyFilter({ items = CASE_STUDIES }: { items?: CaseStudy[] }) {
   const [active, setActive] = useState<string>("All");
   const filtered =
     active === "All"
-      ? CASE_STUDIES
-      : CASE_STUDIES.filter((study) => study.sector === active);
+      ? items
+      : items.filter((study) => study.sector === active);
 
   return (
     <div>

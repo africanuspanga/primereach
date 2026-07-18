@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { mediaUrl } from "@/lib/media";
+import { resolveImage } from "@/lib/media";
 import { withFallback } from "./utils";
 import {
   CAPABILITIES,
@@ -26,7 +26,7 @@ function rowToCapability(r: any): Capability {
     bullets: r.bullets ?? [],
     visualLabel: r.visual_label,
     variant: r.variant ?? undefined,
-    image: mediaUrl(r.image) ?? undefined,
+    image: resolveImage(r.image) ?? undefined,
   };
 }
 

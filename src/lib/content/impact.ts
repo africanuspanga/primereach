@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { mediaUrl } from "@/lib/media";
+import { resolveImage } from "@/lib/media";
 import { withFallback } from "./utils";
 import {
   CASE_STUDIES,
@@ -26,7 +26,7 @@ function rowToCaseStudy(r: any): CaseStudy {
     client: r.client,
     title: r.title,
     summary: r.summary ?? undefined,
-    image: mediaUrl(r.image) ?? "",
+    image: resolveImage(r.image) ?? "",
   };
 }
 
@@ -75,7 +75,7 @@ export const getFeaturedProjects = unstable_cache(
       return (data ?? []).map((r) => ({
         title: r.title,
         caption: r.caption,
-        image: mediaUrl(r.image) ?? "",
+        image: resolveImage(r.image) ?? "",
       }));
     }, FEATURED_PROJECTS),
   ["featured-projects:list"],
@@ -113,7 +113,7 @@ export const getClients = unstable_cache(
       if (error) throw error;
       return (data ?? []).map((r) => ({
         name: r.name,
-        logo: mediaUrl(r.logo) ?? r.logo ?? "",
+        logo: resolveImage(r.logo) ?? r.logo ?? "",
       }));
     }, CLIENTS),
   ["clients:list"],
@@ -132,7 +132,7 @@ export const getClientRoster = unstable_cache(
       if (error) throw error;
       return (data ?? []).map((r): RosterClient => ({
         name: r.name,
-        logo: mediaUrl(r.logo) ?? r.logo ?? undefined,
+        logo: resolveImage(r.logo) ?? r.logo ?? undefined,
       }));
     }, CLIENT_ROSTER),
   ["clients:roster"],

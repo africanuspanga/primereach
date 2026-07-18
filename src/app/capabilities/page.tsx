@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CAPABILITIES, CAPABILITIES_INDEX, getCapability } from "@/data/capabilities";
+import { getBlock, getCapabilities, getCapability } from "@/lib/content";
+import { CAPABILITIES_INDEX } from "@/data/capabilities";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { ClosingCtaSection } from "@/components/sections/closing-cta";
@@ -8,15 +9,22 @@ import { CapabilityBody } from "@/components/capabilities/capability-body";
 import { Reveal } from "@/components/ui/reveal";
 import { Icon } from "@/components/ui/icon";
 
-export const metadata: Metadata = {
-  title: "Capabilities | The Muscle Behind Every Project",
-  description: CAPABILITIES_INDEX.heroLede,
-  alternates: { canonical: "/capabilities" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const index = (await getBlock<typeof CAPABILITIES_INDEX>("capabilities_index")) ?? CAPABILITIES_INDEX;
+  return {
+    title: "Capabilities | The Muscle Behind Every Project",
+    description: index.heroLede,
+    alternates: { canonical: "/capabilities" },
+  };
+}
 
-export default function CapabilitiesPage() {
-  const technology = getCapability("technology");
-  const studio = getCapability("creative-studio");
+export default async function CapabilitiesPage() {
+  const [index, capabilities, technology, studio] = await Promise.all([
+    getBlock<typeof CAPABILITIES_INDEX>("capabilities_index").then((b) => b ?? CAPABILITIES_INDEX),
+    getCapabilities(),
+    getCapability("technology"),
+    getCapability("creative-studio"),
+  ]);
 
   return (
     <>
@@ -28,14 +36,14 @@ export default function CapabilitiesPage() {
             <span className="serif-italic text-bronze-300">behind every project.</span>
           </>
         }
-        description={CAPABILITIES_INDEX.heroLede}
+        description={index.heroLede}
         image={MEDIA.pageHero.capabilities}
       />
 
       <section className="bg-white py-20 lg:py-24">
         <div className="container-x">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {CAPABILITIES.map((capability, i) => (
+            {capabilities.map((capability, i) => (
               <Reveal key={capability.slug} delay={(i % 5) * 0.05} className="h-full">
                 <Link
                   href={capability.href}
@@ -64,7 +72,7 @@ export default function CapabilitiesPage() {
         </div>
       </section>
 
-      <ClosingCtaSection cta={CAPABILITIES_INDEX.closing} />
+      <ClosingCtaSection cta={index.closing} />
     </>
   );
 }

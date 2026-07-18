@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { mediaUrl } from "@/lib/media";
+import { resolveImage } from "@/lib/media";
 import { withFallback } from "./utils";
 import { INSIGHTS, FEATURED_INSIGHT, NEWSLETTER } from "@/data/insights";
 import type { Insight } from "@/types/content";
@@ -10,7 +10,7 @@ function rowToInsight(r: any): Insight {
     type: r.type,
     title: r.title,
     meta: r.meta,
-    image: mediaUrl(r.image) ?? undefined,
+    image: resolveImage(r.image) ?? undefined,
     is_teaser: r.is_teaser ?? undefined,
     is_featured: r.is_featured ?? undefined,
   };

@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import type { Capability } from "@/types/content";
+import type { Capability, DeployStep, RegionCoverage, SubService } from "@/types/content";
 import {
-  DEPLOY_STEPS,
-  NETWORK_REGIONS,
-  STANDING_CAPABILITIES,
   getCapability,
-} from "@/data/capabilities";
+  getNetworkRegions,
+  getDeploySteps,
+  getStandingCapabilities,
+} from "@/lib/content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -16,9 +16,18 @@ import { CapabilityBody } from "@/components/capabilities/capability-body";
 import { CallToAction } from "@/components/sections/call-to-action";
 
 /** Shared detail template for all five capability routes. */
-export function CapabilityDetail({ slug }: { slug: string }) {
-  const capability = getCapability(slug);
+export async function CapabilityDetail({ slug }: { slug: string }) {
+  const capability = await getCapability(slug);
   if (!capability) notFound();
+
+  let regions: RegionCoverage[] = [];
+  let steps: DeployStep[] = [];
+  let standing: SubService[] = [];
+  if (capability.variant === "network") {
+    regions = await getNetworkRegions();
+  } else if (capability.variant === "deployment") {
+    [steps, standing] = await Promise.all([getDeploySteps(), getStandingCapabilities()]);
+  }
 
   return (
     <>
@@ -26,13 +35,13 @@ export function CapabilityDetail({ slug }: { slug: string }) {
         eyebrow={`Capability ${capability.number}`}
         title={capability.heroTitle}
         description={capability.heroTagline}
-        image={MEDIA.capabilities[slug]}
+        image={capability.image ?? MEDIA.capabilities[slug]}
       />
 
       {capability.variant === "network" ? (
-        <NetworkBody capability={capability} />
+        <NetworkBody capability={capability} regions={regions} />
       ) : capability.variant === "deployment" ? (
-        <DeploymentBody />
+        <DeploymentBody steps={steps} standing={standing} />
       ) : (
         <section className="bg-white py-20 lg:py-24">
           <div className="container-x">
@@ -46,7 +55,13 @@ export function CapabilityDetail({ slug }: { slug: string }) {
   );
 }
 
-function NetworkBody({ capability }: { capability: Capability }) {
+function NetworkBody({
+  capability,
+  regions,
+}: {
+  capability: Capability;
+  regions: RegionCoverage[];
+}) {
   return (
     <section className="bg-white py-20 lg:py-24">
       <div className="container-x">
@@ -72,7 +87,7 @@ function NetworkBody({ capability }: { capability: Capability }) {
           </Reveal>
           <Reveal delay={0.1}>
             <ul className="grid gap-2.5">
-              {NETWORK_REGIONS.map((region) => (
+              {regions.map((region) => (
                 <li
                   key={region.region}
                   className="flex items-center justify-between rounded-xl bg-paper px-4 py-3 text-sm"
@@ -91,7 +106,13 @@ function NetworkBody({ capability }: { capability: Capability }) {
   );
 }
 
-function DeploymentBody() {
+function DeploymentBody({
+  steps,
+  standing,
+}: {
+  steps: DeployStep[];
+  standing: SubService[];
+}) {
   return (
     <>
       <section className="bg-white py-20 lg:py-24">
@@ -107,7 +128,7 @@ function DeploymentBody() {
             }
           />
           <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {DEPLOY_STEPS.map((step, i) => (
+            {steps.map((step, i) => (
               <Reveal key={step.time} delay={i * 0.08} className="h-full">
                 <div className="h-full rounded-[1.5rem] border border-ink/10 bg-paper p-7 text-center">
                   <span className="mx-auto grid size-16 place-items-center rounded-full bg-ink font-display text-lg font-light text-bronze-300">
@@ -135,7 +156,7 @@ function DeploymentBody() {
             }
           />
           <div className="mt-12">
-            <SubServiceGrid items={STANDING_CAPABILITIES} />
+            <SubServiceGrid items={standing} />
           </div>
         </div>
       </section>

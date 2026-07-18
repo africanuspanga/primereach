@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CONTACT_PAGE, DEPARTMENTS } from "@/data/site-content";
+import { getBlock } from "@/lib/content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { ContactForm } from "@/components/contact/contact-form";
@@ -14,13 +15,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contactPage =
+    (await getBlock<typeof CONTACT_PAGE>("contact_page")) ?? CONTACT_PAGE;
+
   return (
     <>
       <PageHero
         eyebrow="Contact PrimeReach"
-        title={CONTACT_PAGE.heroTitle}
-        description={CONTACT_PAGE.heroSupporting}
+        title={contactPage.heroTitle}
+        description={contactPage.heroSupporting}
         image={MEDIA.pageHero.contact}
       />
 
@@ -54,9 +58,9 @@ export default function ContactPage() {
 
         <div className="container-x mt-16 lg:mt-24">
           <SectionHeading
-            eyebrow={CONTACT_PAGE.directoryEyebrow}
-            title={CONTACT_PAGE.directoryTitle}
-            description={CONTACT_PAGE.directoryDescription}
+            eyebrow={contactPage.directoryEyebrow}
+            title={contactPage.directoryTitle}
+            description={contactPage.directoryDescription}
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {DEPARTMENTS.map((department, i) => (

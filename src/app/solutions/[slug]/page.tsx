@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { SOLUTIONS, getSolution } from "@/data/solutions";
+import { getSolution, getSolutions } from "@/lib/content";
 import { SolutionDetail } from "@/components/solutions/solution-detail";
 
-export const dynamicParams = false;
+// Allow solutions added later via the CMS to render on-demand (ISR).
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return SOLUTIONS.map((solution) => ({ slug: solution.slug }));
+export async function generateStaticParams() {
+  const solutions = await getSolutions();
+  return solutions.map((solution) => ({ slug: solution.slug }));
 }
 
 export async function generateMetadata({
@@ -14,7 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const solution = getSolution(slug);
+  const solution = await getSolution(slug);
   if (!solution) return {};
   return {
     title: solution.title,

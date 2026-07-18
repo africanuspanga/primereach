@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { FUTURE_INDEX, FUTURE_PROGRAMMES } from "@/data/programmes";
+import { getFutureProgrammes, getBlock } from "@/lib/content";
+import { FUTURE_INDEX } from "@/data/programmes";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { CallToAction } from "@/components/sections/call-to-action";
@@ -12,7 +13,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/programmes/future" },
 };
 
-export default function FutureProgrammesPage() {
+export default async function FutureProgrammesPage() {
+  const [futureProgrammes, index] = await Promise.all([
+    getFutureProgrammes(),
+    getBlock<typeof FUTURE_INDEX>("future_index"),
+  ]);
+  const futureIndex = index ?? FUTURE_INDEX;
+
   return (
     <>
       <PageHero
@@ -22,13 +29,13 @@ export default function FutureProgrammesPage() {
             What is <span className="serif-italic text-bronze-300">coming next.</span>
           </>
         }
-        description={FUTURE_INDEX.heroLede}
+        description={futureIndex.heroLede}
         image={MEDIA.pageHero.programmes}
       />
 
       <section className="bg-paper py-16 lg:py-24">
         <div className="container-x grid gap-6">
-          {FUTURE_PROGRAMMES.map((programme, i) => (
+          {futureProgrammes.map((programme, i) => (
             <Reveal key={programme.title} delay={(i % 2) * 0.06}>
               <ProgrammeCard programme={programme} />
             </Reveal>

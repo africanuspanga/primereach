@@ -60,10 +60,15 @@ const db = createClient(
   { auth: { persistSession: false } }
 );
 
-/** Convert /public paths to storage object paths. */
-function toStoragePath(path?: string | null): string | null {
+/**
+ * Store image references verbatim. Existing site imagery lives in /public and
+ * is served by Next (resolveImage leaves "/..." paths untouched). Images later
+ * uploaded through the admin panel are stored as bare storage paths, which
+ * resolveImage maps to the public `media` bucket.
+ */
+function toImagePath(path?: string | null): string | null {
   if (!path) return null;
-  return path.replace(/^\//, "");
+  return path;
 }
 
 const withPos = <T,>(arr: readonly T[]) => arr.map((x, i) => ({ ...x, position: i }));
@@ -129,7 +134,7 @@ async function main() {
       sub_services: s.subServices,
       approach: s.approach ?? [],
       closing: s.closing,
-      image: toStoragePath(MEDIA.solutions[s.slug as keyof typeof MEDIA.solutions]),
+      image: toImagePath(MEDIA.solutions[s.slug as keyof typeof MEDIA.solutions]),
       position: i,
     })),
     { onConflict: "slug" }
@@ -155,7 +160,7 @@ async function main() {
         intro: detail?.intro ?? null,
         positioning_line: detail?.positioningLine ?? null,
         categories: detail?.categories ?? [],
-        image: toStoragePath(MEDIA.wings[w.slug as keyof typeof MEDIA.wings]),
+        image: toImagePath(MEDIA.wings[w.slug as keyof typeof MEDIA.wings]),
         position: i,
       };
     }),
@@ -179,7 +184,7 @@ async function main() {
       bullets: c.bullets,
       visual_label: c.visualLabel,
       variant: c.variant ?? null,
-      image: toStoragePath(MEDIA.capabilities[c.slug as keyof typeof MEDIA.capabilities]),
+      image: toImagePath(MEDIA.capabilities[c.slug as keyof typeof MEDIA.capabilities]),
       position: i,
     })),
     { onConflict: "slug" }
@@ -210,18 +215,18 @@ async function main() {
       client: c.client,
       title: c.title,
       summary: c.summary ?? null,
-      image: toStoragePath(c.image),
+      image: toImagePath(c.image),
       is_featured: featuredTitles.has(c.title),
       position: i,
     }))
   );
   await db.from("featured_projects").upsert(
-    withPos(FEATURED_PROJECTS).map((p) => ({ ...p, image: toStoragePath(p.image) }))
+    withPos(FEATURED_PROJECTS).map((p) => ({ ...p, image: toImagePath(p.image) }))
   );
   await db.from("impact_sectors").upsert(withPos(IMPACT_SECTORS));
   await db.from("clients").upsert([
-    ...CLIENTS.map((c, i) => ({ name: c.name, logo: toStoragePath(c.logo), kind: "logo", position: i })),
-    ...CLIENT_ROSTER.map((c, i) => ({ name: c.name, logo: toStoragePath(c.logo), kind: "roster", position: i })),
+    ...CLIENTS.map((c, i) => ({ name: c.name, logo: toImagePath(c.logo), kind: "logo", position: i })),
+    ...CLIENT_ROSTER.map((c, i) => ({ name: c.name, logo: toImagePath(c.logo), kind: "roster", position: i })),
   ]);
   // Testimonials seeded UNPUBLISHED pending client sign-off
   await db.from("testimonials").upsert(
@@ -239,7 +244,7 @@ async function main() {
       stats: p.stats ?? [],
       cta: p.cta ?? null,
       is_future: false,
-      image: toStoragePath(MEDIA.programmes[p.slug as keyof typeof MEDIA.programmes]),
+      image: toImagePath(MEDIA.programmes[p.slug as keyof typeof MEDIA.programmes]),
       position: i,
     })),
     ...FUTURE_PROGRAMMES.map((p, i) => ({
@@ -263,7 +268,7 @@ async function main() {
       type: n.type,
       title: n.title,
       meta: n.meta,
-      image: toStoragePath(n.image),
+      image: toImagePath(n.image),
       is_featured: n.title === featuredInsightTitle,
       is_teaser: teaserTitles.has(n.title),
       position: i,

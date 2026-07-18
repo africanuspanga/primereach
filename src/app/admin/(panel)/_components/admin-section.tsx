@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { FieldDef } from "./field-input";
 import { ResourceForm } from "./resource-form";
 import { ResourceTable } from "./resource-table";
@@ -15,6 +16,7 @@ export interface TableConfig {
 }
 
 export function AdminSection({ title, tables }: { title: string; tables: TableConfig[] }) {
+  const router = useRouter();
   const [active, setActive] = useState(0);
   const [editing, setEditing] = useState<Record<string, unknown> | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -22,12 +24,15 @@ export function AdminSection({ title, tables }: { title: string; tables: TableCo
   const current = tables[active];
 
   function refresh() {
-    setRefreshKey((k) => k + 1);
+    // Re-fetch the server component's rows so the table reflects the change,
+    // reset the form, and keep the active tab.
     setEditing(null);
+    setRefreshKey((k) => k + 1);
+    router.refresh();
   }
 
   return (
-    <div key={refreshKey}>
+    <div>
       <h1 className="font-display text-3xl font-normal text-ink">{title}</h1>
 
       <div className="mt-6 flex flex-wrap gap-2 border-b border-ink/10 pb-4">
@@ -74,6 +79,7 @@ export function AdminSection({ title, tables }: { title: string; tables: TableCo
             {editing?.id ? "Edit" : "Create"} {current.label.slice(0, -1)}
           </h3>
           <ResourceForm
+            key={`${current.table}-${(editing?.id as string) ?? "new"}-${refreshKey}`}
             table={current.table}
             fields={current.fields}
             initial={editing ?? undefined}

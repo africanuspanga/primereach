@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { CLIENT_ROSTER, IMPACT_SECTORS } from "@/data/impact";
+import { getClientRoster, getImpactSectors } from "@/lib/content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { CallToAction } from "@/components/sections/call-to-action";
@@ -15,7 +15,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/impact/clients-sectors" },
 };
 
-export default function ClientsSectorsPage() {
+export default async function ClientsSectorsPage() {
+  const [impactSectors, clientRoster] = await Promise.all([
+    getImpactSectors(),
+    getClientRoster(),
+  ]);
+
   return (
     <>
       <PageHero
@@ -34,7 +39,7 @@ export default function ClientsSectorsPage() {
           <ImpactTabs />
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {IMPACT_SECTORS.map((sector, i) => (
+            {impactSectors.map((sector, i) => (
               <Reveal key={sector.title} delay={(i % 3) * 0.05} className="h-full">
                 <div className="group flex h-full flex-col rounded-[1.5rem] border border-ink/10 border-t-[3px] border-t-ink/15 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-t-bronze hover:shadow-[0_24px_50px_-36px_rgba(11,20,29,0.5)]">
                   <h3 className="font-display text-xl font-normal text-ink">{sector.title}</h3>
@@ -60,7 +65,7 @@ export default function ClientsSectorsPage() {
               }
             />
             <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-              {CLIENT_ROSTER.map((client, i) => (
+              {clientRoster.map((client, i) => (
                 <Reveal
                   key={`${client.name}-${i}`}
                   delay={(i % 6) * 0.04}

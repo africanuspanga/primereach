@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { CAPABILITIES, getCapability } from "@/data/capabilities";
+import { getCapabilities, getCapability } from "@/lib/content";
 import { CapabilityDetail } from "@/components/capabilities/capability-detail";
 
-export const dynamicParams = false;
+// Allow capabilities added later via the CMS to render on-demand (ISR).
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return CAPABILITIES.map((capability) => ({ slug: capability.slug }));
+export async function generateStaticParams() {
+  const capabilities = await getCapabilities();
+  return capabilities.map((capability) => ({ slug: capability.slug }));
 }
 
 export async function generateMetadata({
@@ -14,7 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const capability = getCapability(slug);
+  const capability = await getCapability(slug);
   if (!capability) return {};
   return {
     title: `${capability.title} | Capabilities`,
