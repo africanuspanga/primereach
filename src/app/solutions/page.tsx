@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { CROSS_CUTTING, SOLUTIONS_INDEX } from "@/data/solutions";
+import { getBlock, getCrossCuttingOfferings } from "@/lib/content";
+import { SOLUTIONS_INDEX } from "@/data/solutions";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { SolutionsGrid } from "@/components/sections/solutions-grid";
@@ -7,13 +8,21 @@ import { ClosingCtaSection } from "@/components/sections/closing-cta";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 
-export const metadata: Metadata = {
-  title: "Solutions | Six Solutions, One Accountable Partner",
-  description: SOLUTIONS_INDEX.heroLede,
-  alternates: { canonical: "/solutions" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const index = (await getBlock<typeof SOLUTIONS_INDEX>("solutions_index")) ?? SOLUTIONS_INDEX;
+  return {
+    title: "Solutions | Six Solutions, One Accountable Partner",
+    description: index.heroLede,
+    alternates: { canonical: "/solutions" },
+  };
+}
 
-export default function SolutionsPage() {
+export default async function SolutionsPage() {
+  const [index, crossCutting] = await Promise.all([
+    getBlock<typeof SOLUTIONS_INDEX>("solutions_index").then((b) => b ?? SOLUTIONS_INDEX),
+    getCrossCuttingOfferings(),
+  ]);
+
   return (
     <>
       <PageHero
@@ -24,7 +33,7 @@ export default function SolutionsPage() {
             <span className="serif-italic text-bronze-300">One accountable partner.</span>
           </>
         }
-        description={SOLUTIONS_INDEX.heroLede}
+        description={index.heroLede}
         image={MEDIA.pageHero.solutions}
       />
 
@@ -33,12 +42,12 @@ export default function SolutionsPage() {
       <section className="bg-paper py-20 lg:py-24">
         <div className="container-x">
           <SectionHeading
-            eyebrow={SOLUTIONS_INDEX.crossCutting.eyebrow}
-            title={SOLUTIONS_INDEX.crossCutting.title}
-            description={SOLUTIONS_INDEX.crossCutting.description}
+            eyebrow={index.crossCutting.eyebrow}
+            title={index.crossCutting.title}
+            description={index.crossCutting.description}
           />
           <div className="mt-12 grid gap-5 sm:grid-cols-2">
-            {CROSS_CUTTING.map((offering, i) => (
+            {crossCutting.map((offering, i) => (
               <Reveal key={offering.number} delay={(i % 2) * 0.06} className="h-full">
                 <div className="flex h-full flex-col rounded-[1.5rem] border border-ink/10 bg-white p-8">
                   <span className="font-display text-3xl font-light text-bronze/50">
@@ -60,7 +69,7 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <ClosingCtaSection cta={SOLUTIONS_INDEX.closing} />
+      <ClosingCtaSection cta={index.closing} />
     </>
   );
 }

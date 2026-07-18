@@ -4,7 +4,11 @@ import { useState } from "react";
 import { NEWSLETTER } from "@/data/insights";
 import { Eyebrow } from "@/components/ui/eyebrow";
 
-export function NewsletterSignup() {
+export function NewsletterSignup({
+  content = NEWSLETTER,
+}: {
+  content?: typeof NEWSLETTER;
+}) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
@@ -29,11 +33,11 @@ export function NewsletterSignup() {
   return (
     <div className="mt-16 rounded-[1.75rem] border border-ink/10 border-t-[3px] border-t-bronze bg-white p-10 text-center lg:p-14">
       <div className="mx-auto flex max-w-xl flex-col items-center">
-        <Eyebrow>{NEWSLETTER.eyebrow}</Eyebrow>
+        <Eyebrow>{content.eyebrow}</Eyebrow>
         <h3 className="mt-5 font-display text-2xl font-normal text-ink lg:text-3xl">
-          {NEWSLETTER.title}
+          {content.title}
         </h3>
-        <p className="mt-3 text-muted">{NEWSLETTER.copy}</p>
+        <p className="mt-3 text-muted">{content.copy}</p>
 
         {status === "success" ? (
           <p className="mt-7 rounded-full bg-paper px-6 py-3 text-sm font-medium text-ink">

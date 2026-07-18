@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getCaseStudies } from "@/lib/content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { CallToAction } from "@/components/sections/call-to-action";
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/impact/case-studies" },
 };
 
-export default function CaseStudiesPage() {
+export default async function CaseStudiesPage() {
+  const caseStudies = await getCaseStudies();
+
   return (
     <>
       <PageHero
@@ -31,7 +34,7 @@ export default function CaseStudiesPage() {
         <div className="container-x">
           <ImpactTabs />
           <div className="mt-12">
-            <CaseStudyFilter />
+            <CaseStudyFilter items={caseStudies} />
           </div>
         </div>
       </section>

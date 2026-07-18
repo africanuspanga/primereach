@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { mediaUrl } from "@/lib/media";
+import { resolveImage } from "@/lib/media";
 import { withFallback } from "./utils";
 import { PROGRAMMES, FUTURE_PROGRAMMES, TCMA } from "@/data/programmes";
 import type { Programme } from "@/types/content";
@@ -14,7 +14,7 @@ function rowToProgramme(r: any): Programme {
     description: r.description,
     stats: r.stats ?? [],
     cta: r.cta ?? undefined,
-    image: mediaUrl(r.image) ?? undefined,
+    image: resolveImage(r.image) ?? undefined,
   };
 }
 

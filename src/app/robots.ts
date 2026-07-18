@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/constants";
 
-// Required for `output: export` — emit a static robots.txt at build time.
+// Emit a static robots.txt at build time.
 export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {

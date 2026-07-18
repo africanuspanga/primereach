@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { PROGRAMMES, PROGRAMMES_INDEX } from "@/data/programmes";
+import { getProgrammes, getBlock } from "@/lib/content";
+import { PROGRAMMES_INDEX } from "@/data/programmes";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { CallToAction } from "@/components/sections/call-to-action";
@@ -12,7 +13,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/programmes" },
 };
 
-export default function ProgrammesPage() {
+export default async function ProgrammesPage() {
+  const [programmes, index] = await Promise.all([
+    getProgrammes(),
+    getBlock<typeof PROGRAMMES_INDEX>("programmes_index"),
+  ]);
+  const programmesIndex = index ?? PROGRAMMES_INDEX;
+
   return (
     <>
       <PageHero
@@ -23,13 +30,13 @@ export default function ProgrammesPage() {
             <span className="serif-italic text-bronze-300">own and steward.</span>
           </>
         }
-        description={PROGRAMMES_INDEX.heroLede}
+        description={programmesIndex.heroLede}
         image={MEDIA.pageHero.programmes}
       />
 
       <section className="bg-paper py-16 lg:py-24">
         <div className="container-x grid gap-6">
-          {PROGRAMMES.map((programme, i) => (
+          {programmes.map((programme, i) => (
             <Reveal key={programme.title} delay={(i % 2) * 0.06}>
               <ProgrammeCard programme={programme} />
             </Reveal>

@@ -408,7 +408,8 @@ begin
       'service_wings','capabilities','standing_capabilities','network_regions',
       'deploy_steps','core_values','why_choose_reasons','timeline_entries',
       'sector_groups','stats','case_studies','featured_projects','impact_sectors',
-      'clients','testimonials','programmes','insights','form_options','media_assets'
+      'clients','testimonials','programmes','insights','form_options'
+      -- media_assets intentionally excluded: it has no updated_at column.
     ])
   loop
     execute format(

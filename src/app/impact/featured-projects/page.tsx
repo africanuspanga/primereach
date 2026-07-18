@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { FEATURED_PROJECTS } from "@/data/impact";
+import { getFeaturedProjects } from "@/lib/content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { CallToAction } from "@/components/sections/call-to-action";
@@ -15,7 +15,9 @@ export const metadata: Metadata = {
 
 const ASPECTS = ["aspect-[4/3]", "aspect-[4/5]", "aspect-[16/10]"];
 
-export default function FeaturedProjectsPage() {
+export default async function FeaturedProjectsPage() {
+  const featuredProjects = await getFeaturedProjects();
+
   return (
     <>
       <PageHero
@@ -33,7 +35,7 @@ export default function FeaturedProjectsPage() {
         <div className="container-x">
           <ImpactTabs />
           <div className="mt-12 gap-5 [column-fill:_balance] sm:columns-2 lg:columns-3">
-            {FEATURED_PROJECTS.map((project, i) => (
+            {featuredProjects.map((project, i) => (
               <figure
                 key={project.title}
                 className="group mb-5 break-inside-avoid overflow-hidden rounded-[1.25rem] border border-ink/10 bg-white"

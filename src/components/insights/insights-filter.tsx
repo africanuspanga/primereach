@@ -5,6 +5,7 @@ import { INSIGHTS, INSIGHTS_INDEX } from "@/data/insights";
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/ui/reveal";
 import { InsightCard } from "@/components/insights/insight-card";
+import type { Insight } from "@/types/content";
 
 const FILTER_TO_TYPE: Record<string, string> = {
   Articles: "Article",
@@ -14,17 +15,23 @@ const FILTER_TO_TYPE: Record<string, string> = {
 };
 
 /** Filterable insights grid (client-side filter by type). */
-export function InsightsFilter() {
+export function InsightsFilter({
+  insights = INSIGHTS,
+  filters = INSIGHTS_INDEX.filters,
+}: {
+  insights?: Insight[];
+  filters?: readonly string[];
+}) {
   const [active, setActive] = useState<string>("All");
   const filtered =
     active === "All"
-      ? INSIGHTS
-      : INSIGHTS.filter((insight) => insight.type === FILTER_TO_TYPE[active]);
+      ? insights
+      : insights.filter((insight) => insight.type === FILTER_TO_TYPE[active]);
 
   return (
     <div>
       <div className="flex flex-wrap gap-2">
-        {INSIGHTS_INDEX.filters.map((filter) => (
+        {filters.map((filter) => (
           <button
             key={filter}
             type="button"

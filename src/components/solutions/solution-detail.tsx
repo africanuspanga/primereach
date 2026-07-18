@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
-import { SOLUTIONS, getSolution } from "@/data/solutions";
+import { getSolution, getSolutions } from "@/lib/content";
 import { MEDIA } from "@/lib/images";
 import { PageHero } from "@/components/sections/page-hero";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -11,11 +11,11 @@ import { SubServiceGrid } from "@/components/sections/sub-service-grid";
 import { ClosingCtaSection } from "@/components/sections/closing-cta";
 
 /** Shared detail template for all six solution routes. */
-export function SolutionDetail({ slug }: { slug: string }) {
-  const solution = getSolution(slug);
+export async function SolutionDetail({ slug }: { slug: string }) {
+  const solution = await getSolution(slug);
   if (!solution) notFound();
 
-  const others = SOLUTIONS.filter((s) => s.slug !== slug);
+  const others = (await getSolutions()).filter((s) => s.slug !== slug);
 
   return (
     <>
@@ -23,7 +23,7 @@ export function SolutionDetail({ slug }: { slug: string }) {
         eyebrow={`Solution ${solution.number}`}
         title={solution.title}
         description={solution.heroTagline}
-        image={MEDIA.solutions[slug]}
+        image={solution.image ?? MEDIA.solutions[slug]}
       />
 
       {/* What we deliver */}
