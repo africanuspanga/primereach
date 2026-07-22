@@ -44,3 +44,6 @@ supabase/.branches
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# static export: temp holding dir for server-only routes
+/.static-build-excluded/

@@ -3,6 +3,7 @@ import { getCapabilities, getCapability } from "@/lib/content";
 import { CapabilityDetail } from "@/components/capabilities/capability-detail";
 
 // Allow capabilities added later via the CMS to render on-demand (ISR).
+// (The static-export build flips this to `false` — see scripts/build-static.mjs.)
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
